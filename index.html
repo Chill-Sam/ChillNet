@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title></title>
+        <link href="css/index_style.css" rel="stylesheet">
+        <script type="text/javascript" src="javascript/index_javascript.js"></script>
+    </head>
+    <body>
+        <div class="topbarContainer">
+            <div class="topbar">
+                <div class="profile">
+                    <button id="profileButton" type="button" onclick="toggleLoginPopup(1)"><img src="assets/no_account.png" alt="No account"></button>
+                </div>
+            </div>
+        </div>
+        <div class="centerContainer"> 
+            <div class="centerBox">
+            </div>
+        </div>
+        <div id="loginContainer">
+            <div id="loginPopup">
+                <div id="closeLoginPopup">
+                    <button id="closeLoginPopupButton" type="button" onclick="toggleLoginPopup(0)"><img src="assets/exit.png" alt="exit"></button>
+                </div>
+                <div id="loginPopupHeader">
+                    <h1>You aren't logged in</h1>
+                </div>
+                <div id="loginPopupButtonContainer">
+                    <button id="loginButton" type="button">Login</button>
+                    <button id="signupButton" type="button">Sign Up</button>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
