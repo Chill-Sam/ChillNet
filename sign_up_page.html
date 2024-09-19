@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title></title>
+        <link href="css/sign_up_page_style.css" rel="stylesheet">
+        <script type="text/javascript" src="script/sign_up_page_javascript.js"></script>
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    </head>
+    <body>
+    <a class="largeParagraph" style="z-index:10;width:40px;height:40px;margin-right:-40px;margin-bottom:-40px;" href="javascript:window.history.back();">X</a>
+    <div id="leftDecorContainer">
+        <div id="DecorHeader">
+            <h1 class="largeHeader">Hello! Welcome to ChillNet</h1>
+        </div>
+        <div id="DecorTextBox">
+            <p class="largeParagraph">Connect, unwind, and share your vibe with a community that's all about keeping it chill. Whether you’re here to explore new interests, make friends, or just relax and browse, ChillNet is your space to be yourself.</p>
+            <ul class="largeParagraph">
+                <li><u><strong>Share</strong></u> your thoughts, photos, and music.</li>
+                <li><u><strong>Discover</strong></u> new ideas and inspirations.</li>
+                <li><u><strong>Connect</strong></u> with people who share your passions.</li>    
+            </ul>
+            <p class="largeParagraph">Join us today and start chilling out with a global network of like-minded people. Your new favorite social spot is just a sign-up away!</p>
+        </div>
+        <div id="DecorIconHolder">
+            <div id="DecorIcon">
+                <img src="assets/icon.png" alt="logo">
+            </div>
+        </div>
+    </div>
+    <div id="signUpContainer">
+        <div id="finalizeAccountContainer">
+            <div id="finalizeAccount">
+                <h1 class="largeHeader">Enter your verification number:</h1>
+                <input type="text" name="confirmCode" id="confirmCode" maxlength="6">
+                <div id="finalizeAccountButtonHolder">
+                    <button type="button" onclick="confirmEmail()">Resend Email</button>
+                </div>
+            </div>
+        </div>
+        <div id="signUpHeaderContainer">
+            <div id="signUpWelcome">
+                <h1 class="largeHeader">Hello! Welcome to ChillNet</h1>
+                <p class="largeParagraph" style="text-align: center;"><strong>Bringing people together</strong></p>
+            </div>
+            <div id="signUpHeader">
+                <h1 class="largeHeader">Sign Up</h1>
+            </div>
+        </div>
+        <form name="signUpForm" class="form" action="/my-handling-form-page" method="post">
+            <div id="signUpFormContainer">
+                <div id="usernameInput">
+                    <input type="text" name="username" id="username" placeholder="Username" minlength="6" maxlength="15" onblur="checkIfUserExists()" onchange="checkIfUserExists()" required>
+                </div>
+                <div id="emailInput">
+                    <input type="email" name="email" id="user_email" placeholder="Email" maxlength="100" onblur="checkIfUserExists()" onchange="checkIfUserExists()" required>
+                </div>
+                <div id="passwordInput">
+                    <input type="password" name="password" id="password" placeholder="Password" minlength="8" maxlength="18" onblur="confirmPasswordCheck()" oninput="confirmPasswordCheck()" required>
+                </div>
+                <div id="passwordConfirmInput">
+                    <input type="password" name="passwordConfirm" placeholder="Confirm Password" minlength="8" maxlength="18" onblur="confirmPasswordCheck()" oninput="confirmPasswordCheck()" required>
+                </div>
+                <div id="submitForm">
+                    <button id="submitSignUpFormButton" type="button" onclick="confirmEmail()" disabled="disabled">Create new account</button>
+                    <button type="button">Log in</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    </body>
+</html>

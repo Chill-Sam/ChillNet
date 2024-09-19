@@ -1,0 +1,224 @@
+html {
+    color-scheme: dark !important;
+}
+
+body {
+    background-color: #181A1B;
+    display: flex;
+    overflow: hidden;
+}
+
+.largeHeader {
+    width: 100%;
+    text-align: center;
+    text-decoration: underline;
+    font-size: 50px;
+}
+
+.largeParagraph {
+    width: 100%;
+    font-size: 20px;
+}
+
+.form {
+    width: 100%;
+    height: 100%;
+}
+
+#leftDecorContainer {
+    height: 100vh;
+    width: 50%;
+    overflow-x: hidden;
+    overflow-y: scroll;
+}
+
+#DecorTextBox {
+    position: relative;
+    bottom: 0;
+    left: 0;
+    margin-left: 15px;
+    margin-right: 15px;
+}
+
+#DecorIconHolder {
+    width: 100%;
+    display: flex;
+    flex-flow: column wrap;
+    overflow: hidden;
+}
+
+#DecorIcon {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    padding-bottom: 30px;
+}
+
+#DecorIcon img {
+    border-radius: 20px;
+    width: 300px;
+}
+
+#signUpContainer {
+    width: 50%;
+    height: 100vh;
+    border-left: thick double #fff;
+    overflow: hidden;
+}
+
+#signUpHeaderContainer {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    flex-flow: column wrap;
+}   
+
+#signUpWelcome {
+    margin-bottom: -40px;
+    display: none;
+}
+
+#signUpWelcome h1 {
+    margin-bottom: -20px;
+}
+
+#signUpFormContainer {
+    padding-top: 20px;
+    display: flex;
+    height: 75%;
+    width: 100%;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+#signUpFormContainer div {
+    width: 100%;
+    height: 18%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#signUpFormContainer input {
+    width: 60%;
+    height: 30%;
+    border-radius: 10px;
+    font-size: 18px;
+}
+
+#signUpFormContainer input:invalid {
+    outline: 2px solid red;
+}
+
+#signUpFormContainer button {
+    padding: 0 50px;
+    width: auto;
+    height: 30%;
+    border-radius: 10px;
+    font-size: 18px;
+}
+
+#submitForm {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+#finalizeAccountContainer {
+    pointer-events: none;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    opacity: 0;
+    transition: all 0.5s ease-in;
+}
+
+#finalizeAccount {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 80%;
+    height: 50%;
+    margin: 5% 10%;
+    background-color: #181A1B;
+    border: thick double #fff;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+#finalizeAccount input {
+    width: 80%;
+    height: 20%;
+    font-size: 100px;
+    text-align: center;
+    letter-spacing: 50px;
+    border-radius: 50px;
+}
+
+#finalizeAccountButtonHolder {
+    width: 100%;
+    height: 20%;
+    display: flex;
+    flex-flow: row wrap;
+    align-items: center;
+    justify-content: center;
+}
+
+#finalizeAccountButtonHolder button {
+    width: 60%;
+    height: 50%;
+    font-size: 20px;
+    border-radius: 20px;
+}
+
+@media (max-width: 768px) {
+    #leftDecorContainer {
+        display: none;
+    }
+    
+    #signUpWelcome {
+        display: block;
+    }
+    
+    #signUpContainer {
+        width: 100%;
+        border-left: 0px solid #000;
+    }
+
+    #signUpFormContainer {
+        gap: 1px;
+    }
+
+    #signUpFormContainer div {
+        height: 10%;
+    }
+
+    #signUpFormContainer input {
+        height: 60%;
+    }
+
+    #signUpFormContainer button {
+        height: 60%;
+    }
+}
+
+@media (max-height: 600px) {
+    #signUpContainer {
+        overflow: scroll;
+    }
+    #signUpFormContainer input {
+        height: 60%;
+    }
+    #signUpFormContainer button {
+        height: 80%;
+    }
+}

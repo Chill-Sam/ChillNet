@@ -1,3 +1,7 @@
+html {
+    color-scheme: dark !important;
+}
+
 body {
     background-color: #181A1B;
 }
@@ -13,7 +17,7 @@ body {
 
 .topbar {
     height: 100%;
-    border-bottom: medium solid #000000;
+    border-bottom: medium solid #ffffff;
 }
 
 .profile {
@@ -68,7 +72,7 @@ body {
     height: auto;
     margin-top: 60px;
     margin-bottom: 10px;
-    border: thick double #000000;
+    border: thick double #ffffff;
     border-radius: 20px;
 }
 
@@ -94,7 +98,7 @@ body {
     width: 600px;
     height: 50vh;
     border-radius: 20px;
-    border: thick solid #000000;
+    border: thick solid #ffffff;
 }
 
 #closeLoginPopup {
@@ -144,6 +148,7 @@ body {
 }
 
 #loginPopupButtonContainer button {
+    transition: 0.3s;
     flex-basis: 200px;
     font-size: 45px;
     width: 45%;
@@ -153,5 +158,5 @@ body {
 }
 
 #loginPopupButtonContainer button:hover {
-    opacity: 0.5;
+    opacity: 0.75;
 }
