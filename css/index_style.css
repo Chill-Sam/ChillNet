@@ -6,6 +6,20 @@ body {
     background-color: #181A1B;
 }
 
+.largeHeader {
+    width: 100%;
+    text-align: center;
+    text-decoration: underline;
+    font-size: 50px;
+}
+
+.largeParagraph {
+    width: 100%;
+    font-size: 20px;
+}
+
+
+
 /* Topbar stuff */
 .topbarContainer {
     position: absolute;
@@ -18,6 +32,20 @@ body {
 .topbar {
     height: 100%;
     border-bottom: medium solid #ffffff;
+    display: flex;
+}
+
+#barUsername {
+    width: 25%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#barUsername p {
+    margin-left: 10px;
+    text-align: left;
 }
 
 .profile {
@@ -76,8 +104,8 @@ body {
     border-radius: 20px;
 }
 
-/* Login Popup */
-#loginContainer {
+/* No Account Popup */
+#noAccountContainer {
     z-index: 1;
     pointer-events: none;
     background-color: rgba(0, 0, 0, 0.5);
@@ -93,15 +121,17 @@ body {
     transition: all 0.5s ease-in;
 }
 
-#loginPopup {
+#noAccountPopup {
     background-color: #181A1B;
     width: 600px;
     height: 50vh;
     border-radius: 20px;
     border: thick solid #ffffff;
+    display: flex;
+    flex-direction: column;
 }
 
-#closeLoginPopup {
+#closeNoAccountPopup {
     visibility: hidden;
     margin-left: auto;
     margin-top: 5px;
@@ -109,9 +139,10 @@ body {
     margin-bottom: -60px;
     width: 25px;
     height: 25px;
+    z-index: 1;
 }
 
-#closeLoginPopup img {
+#closeNoAccountPopup img {
     pointer-events: auto;
     visibility: visible;
     width: 24px;
@@ -120,43 +151,163 @@ body {
     transition: all 0.3s;
 }
 
-#closeLoginPopup img:hover {
+#closeNoAccountPopup img:hover {
     opacity: 0.5;
 }
 
-#loginPopupHeader {
+#noAccountHeader {
     margin-bottom: -70px;
     width: 100%;
     text-align: center;
 }
 
-#loginPopupHeader h1 {
-    font-size: 40px;
-    font-weight: var(--base-text-weight-light, 300);
-    letter-spacing: -0.5px;
-    text-decoration: underline;
-}
-
-#loginPopupButtonContainer {
+#noAccountButtonContainer {
     pointer-events: all;
     width: 100%;
-    height: 100%;
+    flex: 1;
     display: flex;
     align-items: center;
     justify-content: space-around;
     flex-flow: row wrap;
 }
 
-#loginPopupButtonContainer button {
+#noAccountButtonContainer button {
     transition: 0.3s;
-    flex-basis: 200px;
     font-size: 45px;
     width: 45%;
-    height: auto;
     border-radius: 50px;
+    height: auto;
     opacity: 1;
 }
 
-#loginPopupButtonContainer button:hover {
+#noAccountButtonContainer button:hover {
     opacity: 0.75;
+}
+
+
+
+/* Start of login popup display */
+
+#loginContainer {
+    z-index: 2;
+    pointer-events: none;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    right: 0;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    opacity: 0;
+    transition: all 0.5s ease-in;
+}
+
+/* Centered popup */
+#login {
+    display: flex;
+    flex-direction: column;
+    background-color: #181A1B;
+    width: 600px;
+    height: 60vh;
+    border-radius: 20px;
+    border: thick solid #ffffff;
+}
+
+/* Header section of login popup, contains title and close button. */
+#loginHeader {
+    display: flex;
+    flex-direction: row;
+}
+
+/* Places the button to the top right with a negative margin allowing the title to be centered */
+#loginHeader button {
+    margin-right: 10px;
+    margin-top: 10px;
+    margin-left: -35px;
+    visibility: hidden;
+    width: 25px;
+    height: 25px;
+}
+
+#loginHeader img {
+    pointer-events: auto;
+    visibility: visible;
+    width: 25px;
+    height: auto;
+    opacity: 1;
+    transition: all 0.3s;
+}
+
+#loginHeader img:hover {
+    opacity: 0.5;
+}
+
+/* Login form container styling */
+#loginFormContainer {
+    width: 100%;
+    height: auto;
+    flex: 1;
+    display: flex;
+    justify-content: center;
+}
+
+/* Styling of the actual form for logging in */
+#loginForm {
+    height: 100%;
+    width: 70%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+}
+
+#loginForm div {
+    width: 100%;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Class for input fields on login screen */
+.loginInput {
+    width: 70%;
+    height: 30%;
+    border-radius: 10px;
+    font-size: 18px;
+}
+
+/* Class for login error labels */
+.loginErrorLabel {
+    text-align: center;
+    font-size: 24px;
+    color: #B00020;
+    width: 100%;
+    font-weight: bold;
+}
+
+/* Make submit button appear at top of flex item */
+#formSubmit {
+    align-items: flex-start !important;
+    flex-direction: row !important;
+}
+
+/* Submit button styling */
+#formSubmit button {
+    width: 60%;
+    height: 50%;
+    font-size: 20px;
+    border-radius: 20px;
+}
+
+/* Special settings for mobile */
+@media (max-width: 768px) { 
+    #noAccountButtonContainer {
+        justify-content: center;
+        flex-direction: column;
+        gap: 50px;
+    }
 }

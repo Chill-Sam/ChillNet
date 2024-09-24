@@ -1,3 +1,7 @@
+<?php
+session_start();
+?>
+
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -5,13 +9,33 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title></title>
         <link href="css/index_style.css" rel="stylesheet">
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
         <script type="text/javascript" src="script/index_javascript.js"></script>
     </head>
     <body>
         <div class="topbarContainer">
             <div class="topbar">
+                <div id="barUsername">
+                    <p class="largeParagraph">
+                    <?php
+                        echo "Welcome " . $_SESSION["username"];
+                    ?>
+                    </p>
+                </div>
                 <div class="profile">
-                    <button id="profileButton" type="button" onclick="toggleLoginPopup(1)"><img src="assets/no_account.png" alt="No account"></button>
+                    <?php
+                    if ($_SESSION["loggedin"] != 1) {
+                    ?>
+                    <button id="profileButton" type="button" onclick="toggleNoAccountPopup(1)"><img src="assets/no_account.png" alt="No account"></button>
+                    <?php
+                    } else {
+                    ?>
+                    <form action="php/logout" method="post">
+                        <button id="profileButton" type="submit"><img src="assets/no_account.png" alt="Acc"></button>
+                    </form>
+                    <?php 
+                    } 
+                    ?>
                 </div>
             </div>
         </div>
@@ -19,19 +43,44 @@
             <div class="centerBox">
             </div>
         </div>
-        <div id="loginContainer">
-            <div id="loginPopup">
-                <div id="closeLoginPopup">
-                    <button id="closeLoginPopupButton" type="button" onclick="toggleLoginPopup(0)"><img src="assets/exit.png" alt="exit"></button>
+        <div id="noAccountContainer">
+            <div id="noAccountPopup">
+                <div id="closeNoAccountPopup">
+                    <button id="closeNoAccountButton" type="button" onclick="toggleNoAccountPopup(0)"><img src="assets/exit.png" alt="exit"></button>
                 </div>
-                <div id="loginPopupHeader">
-                    <h1>You aren't logged in</h1>
+                <div id="noAccountHeader">
+                    <h1 class="largeHeader">You aren't logged in</h1>
                 </div>
-                <div id="loginPopupButtonContainer">
-                    <button id="loginButton" type="button">Login</button>
-                    <button id="signupButton" type="button" onclick="window.location.href='sign_up_page.html'">Sign Up</button>
+                <div id="noAccountButtonContainer">
+                    <button id="loginButton" type="button" onclick="toggleNoAccountPopup(0);toggleLogin(1);">Login</button>
+                    <button id="signupButton" type="button" onclick="window.location.href='sign_up_page'">Sign Up</button>
                 </div>
             </div>
         </div>
+
+        <div id="loginContainer">
+            <div id="login">
+                <div id="loginHeader">
+                    <h1 class="largeHeader">Login to Chillnet</h1>
+                    <button id="closeLoginButton" type="button" onclick="toggleNoAccountPopup(1);toggleLogin(0);"><img src="assets/exit.png" alt="exit"></button>
+                </div>
+                <div id="loginFormContainer">
+                    <form name="loginForm" method="post" id="loginForm">
+                        <div id="formUsername">
+                            <input name="username" type="text" class="loginInput" placeholder="Username">
+                            <label class="loginErrorLabel" id="usernameError" for="username">Account does not exist</label>
+                        </div>
+                        <div id="formPassword">
+                            <input name="password" type="password" class="loginInput" placeholder="Password">
+                            <label class="loginErrorLabel" id="passwordError" for="password">Incorrect Password</label>
+                        </div>
+                        <div id="formSubmit">
+                            <button type="submit">Login</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
     </body>
 </html>

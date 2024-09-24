@@ -1,3 +1,7 @@
+<?php
+session_start();
+?>
+
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -5,11 +9,11 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title></title>
         <link href="css/sign_up_page_style.css" rel="stylesheet">
-        <script type="text/javascript" src="script/sign_up_page_javascript.js"></script>
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+        <script type="text/javascript" src="script/sign_up_page_javascript.js"></script>
     </head>
     <body>
-    <a class="largeParagraph" style="z-index:10;width:40px;height:40px;margin-right:-40px;margin-bottom:-40px;" href="javascript:window.history.back();">X</a>
+    <a class="largeParagraph" style="z-index:10;width:40px;height:40px;margin-right:-40px;margin-bottom:-40px;" href="/">X</a>
     <div id="leftDecorContainer">
         <div id="DecorHeader">
             <h1 class="largeHeader">Hello! Welcome to ChillNet</h1>
@@ -48,13 +52,15 @@
                 <h1 class="largeHeader">Sign Up</h1>
             </div>
         </div>
-        <form name="signUpForm" class="form" action="/my-handling-form-page" method="post">
+        <form name="signUpForm" class="form">
             <div id="signUpFormContainer">
                 <div id="usernameInput">
-                    <input type="text" name="username" id="username" placeholder="Username" minlength="6" maxlength="15" onblur="checkIfUserExists()" onchange="checkIfUserExists()" required>
+                    <input type="text" name="username" id="username" placeholder="Username" minlength="6" maxlength="15" onblur="checkIfUserExists()" onchange="checkIfUserExists()" pattern="[A-Za-z0-9_\-]+" title="Only use A-Z, a-z, numbers, - and _." required>
+                    <label class="loginErrorLabel" id="userError" for="username"></label>
                 </div>
                 <div id="emailInput">
                     <input type="email" name="email" id="user_email" placeholder="Email" maxlength="100" onblur="checkIfUserExists()" onchange="checkIfUserExists()" required>
+                    <label class="loginErrorLabel" id="emailError" for="email"></label>
                 </div>
                 <div id="passwordInput">
                     <input type="password" name="password" id="password" placeholder="Password" minlength="8" maxlength="18" onblur="confirmPasswordCheck()" oninput="confirmPasswordCheck()" required>
@@ -64,10 +70,33 @@
                 </div>
                 <div id="submitForm">
                     <button id="submitSignUpFormButton" type="button" onclick="confirmEmail()" disabled="disabled">Create new account</button>
-                    <button type="button">Log in</button>
+                    <button type="button" onclick="toggleLogin(1);">Log in</button>
                 </div>
             </div>
         </form>
+    </div>
+    <div id="loginContainer">
+        <div id="login">
+            <div id="loginHeader">
+                <h1 class="largeHeader">Login to Chillnet</h1>
+                <button type="button" onclick="toggleLogin(0);"><img src="assets/exit.png" alt="exit"></button>
+            </div>
+            <div id="loginFormContainer">
+                <form name="loginForm" method="post" id="loginForm">
+                    <div id="formUsername">
+                        <input name="username" type="text" class="loginInput" placeholder="Username">
+                        <label class="loginErrorLabel" id="usernameError" for="username">Account does not exist</label>
+                    </div>
+                    <div id="formPassword">
+                        <input name="password" type="password" class="loginInput" placeholder="Password">
+                        <label class="loginErrorLabel" id="passwordError" for="password">Incorrect Password</label>
+                    </div>
+                    <div id="formSubmit">
+                        <button type="submit">Login</button>
+                    </div>
+                </form>
+            </div>
+        </div>
     </div>
     </body>
 </html>

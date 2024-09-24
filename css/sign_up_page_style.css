@@ -25,6 +25,8 @@ body {
     height: 100%;
 }
 
+
+
 #leftDecorContainer {
     height: 100vh;
     width: 50%;
@@ -99,6 +101,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
+    flex-direction: column;
 }
 
 #signUpFormContainer input {
@@ -106,9 +109,10 @@ body {
     height: 30%;
     border-radius: 10px;
     font-size: 18px;
+    overflow: visible !important;
 }
 
-#signUpFormContainer input:invalid {
+#signUpFormContainer input:not(:placeholder-shown):invalid {
     outline: 2px solid red;
 }
 
@@ -125,6 +129,7 @@ body {
     align-items: center;
     justify-content: center;
     gap: 10px;
+    flex-direction: row !important;
 }
 
 #finalizeAccountContainer {
@@ -180,6 +185,126 @@ body {
     border-radius: 20px;
 }
 
+
+/* Start of login popup display */
+
+#loginContainer {
+    z-index: 2;
+    pointer-events: none;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    right: 0;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    opacity: 0;
+    transition: all 0.5s ease-in;
+    height: 100%;
+}
+
+/* Centered popup */
+#login {
+    display: flex;
+    flex-direction: column;
+    background-color: #181A1B;
+    width: 600px;
+    height: 60%;
+    border-radius: 20px;
+    border: thick solid #ffffff;
+}
+
+/* Header section of login popup, contains title and close button. */
+#loginHeader {
+    display: flex;
+    flex-direction: row;
+}
+
+/* Places the button to the top right with a negative margin allowing the title to be centered */
+#loginHeader button {
+    margin-right: 10px;
+    margin-top: 10px;
+    margin-left: -35px;
+    visibility: hidden;
+    width: 25px;
+    height: 25px;
+}
+
+#loginHeader img {
+    pointer-events: auto;
+    visibility: visible;
+    width: 25px;
+    height: auto;
+    opacity: 1;
+    transition: all 0.3s;
+}
+
+#loginHeader img:hover {
+    opacity: 0.5;
+}
+
+/* Login form container styling */
+#loginFormContainer {
+    width: 100%;
+    height: auto;
+    flex: 1;
+    display: flex;
+    justify-content: center;
+}
+
+/* Styling of the actual form for logging in */
+#loginForm {
+    height: 100%;
+    width: 70%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+}
+
+#loginForm div {
+    width: 100%;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Class for input fields on login screen */
+.loginInput {
+    width: 70%;
+    height: 30%;
+    border-radius: 10px;
+    font-size: 18px;
+}
+
+/* Class for login error labels */
+.loginErrorLabel {
+    text-align: center;
+    font-size: 24px;
+    color: #B00020;
+    width: 100%;
+    font-weight: bold;
+}
+
+/* Make submit button appear at top of flex item */
+#formSubmit {
+    align-items: flex-start !important;
+    flex-direction: row !important;
+}
+
+/* Submit button styling */
+#formSubmit button {
+    width: 60%;
+    height: 50%;
+    font-size: 30px;
+    border-radius: 20px;
+}
+
+
 @media (max-width: 768px) {
     #leftDecorContainer {
         display: none;
@@ -208,6 +333,7 @@ body {
 
     #signUpFormContainer button {
         height: 60%;
+        font-size: 14px;
     }
 }
 
@@ -220,5 +346,8 @@ body {
     }
     #signUpFormContainer button {
         height: 80%;
+    }
+    #formSubmit button {
+        font-size: 12px;
     }
 }

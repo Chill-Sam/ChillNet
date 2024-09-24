@@ -31,7 +31,7 @@ function checkIfUserExists() {
     let email = document.forms["signUpForm"]["email"];
 
     $.ajax({
-        url: "php/userExists.php",
+        url: "php/userExists",
         type: "post",
         async: false,
         datatype: 'json',
@@ -41,18 +41,28 @@ function checkIfUserExists() {
             email.setCustomValidity("Error in php");
         },
         success:function(result) {
+            let userError = document.getElementById("userError");
+            let emailError = document.getElementById("emailError");
             if (result == "UEEE") {
                 username.setCustomValidity("Username is unavailable.");
                 email.setCustomValidity("Email already has associated account.");
+                userError.innerHTML = "Username in use";
+                emailError.innerHTML = "Email in use";
             } else if (result == "UEED") {
                 username.setCustomValidity("Username is unavailable");
                 email.setCustomValidity("");
+                userError.innerHTML = "Username in use";
+                emailError.innerHTML = "";
             } else if (result == "UDEE") {
                 username.setCustomValidity("");
                 email.setCustomValidity("Email already has associated account.")
+                userError.innerHTML = "";
+                emailError.innerHTML = "Email in use";
             } else if (result == "UDED") {
                 username.setCustomValidity("");
                 email.setCustomValidity("");
+                userError.innerHTML = "";
+                emailError.innerHTML = "";
             } else {
                 username.setCustomValidity("Error");
                 email.setCustomValidity("Error");
@@ -70,7 +80,7 @@ function confirmEmail() {
     finalizeAccountContainer.style.pointerEvents = "all";
 
     $.ajax({
-        url: "php/sendConfirmEmail.php",
+        url: "php/sendConfirmEmail",
         type: "post",
         async: true,
         datatype: 'json',
@@ -90,7 +100,7 @@ function validateConfirmCode() {
         let password = document.forms["signUpForm"]["password"];
         
         $.ajax({
-            url: "php/createUser.php",
+            url: "php/createUser",
             type: "post",
             async: false,
             datatype: 'json',
@@ -104,6 +114,64 @@ function validateConfirmCode() {
         })
     }
 }
+
+function setElementOpacity(id, opacity) {
+    let element = document.getElementById(id);
+    element.style.opacity = opacity;
+}
+
+function setPointerEvents(id, events) {
+    let element = document.getElementById(id);
+    if (events) {
+        element.style.pointerEvents = "all";
+    } else {
+        element.style.pointerEvents = "none";
+    }
+}
+
+function toggleLogin(show) {
+    setElementOpacity("loginContainer", show);
+    setPointerEvents("loginContainer", show);
+    document.getElementById("usernameError").innerHTML = '';
+    document.getElementById("passwordError").innerHTML = '';
+    if (show) {
+        document.getElementById("loginForm").reset();
+    }
+}
+
+$(document).ready(function () {
+    document.getElementById("usernameError").innerHTML = '';
+    document.getElementById("passwordError").innerHTML = '';
+
+    $("#loginForm").submit(function(e) {
+
+        e.preventDefault(); // avoid to execute the actual submit of the form.
+
+        var form = $(this);
+        var actionUrl = form.attr('action');
+    
+        $.ajax({
+            type: "POST",
+            url: "php/loginUser",
+            data: form.serialize(), // serializes the form's elements.
+            success: function(data)
+            {
+                if (data == "NA") {
+                    document.getElementById("usernameError").innerHTML = 'Account does not exist';
+                    document.getElementById("passwordError").innerHTML = '';
+                } else if (data == "WP") {
+                    document.getElementById("passwordError").innerHTML = 'Incorrect Password';
+                    document.getElementById("usernameError").innerHTML = '';
+                }
+                else {
+                    document.getElementById("usernameError").innerHTML = '';
+                    document.getElementById("passwordError").innerHTML = '';
+                    window.location.replace("/");
+                }
+            }
+        });
+    });
+});
 
 window.onload = function() {
     document.getElementById("confirmCode").value = '';
