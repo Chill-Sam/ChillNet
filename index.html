@@ -18,7 +18,7 @@ session_start();
                 <div id="barUsername">
                     <p class="largeParagraph">
                     <?php
-                        echo "Welcome " . $_SESSION["username"];
+                        echo "Welcome " . $_SESSION["username"] . $_SESSION["UserId"];
                     ?>
                     </p>
                 </div>
@@ -41,6 +41,47 @@ session_start();
         </div>
         <div class="centerContainer"> 
             <div class="centerBox">
+                <div id="postListContainer">
+                    <?php
+                    include 'php/db_config.php';
+
+                    $mysqli = new mysqli($servername, $username, $password, $database);
+
+                    if ($mysqli->connect_error) {
+                        die("Connection failed: " . $mysqli->connect_error);
+                    }
+                        
+                    $sql = "SELECT Content, AssUserId FROM Posts";
+                    $result = $mysqli->query($sql);
+
+                   
+                    if ($result->num_rows > 0) {
+                        while($row = $result->fetch_assoc()) {
+                            $AssUserId = $row["AssUserId"];
+                            $post_username = "SELECT Username FROM Users WHERE UserId='$AssUserId'";
+                            $username_result = $mysqli->query($post_username);
+                            $username_row = $username_result->fetch_assoc();
+
+                            echo "<div class='post-div'>" . htmlspecialchars($row["Content"]) . " - " . $username_row["Username"] . "</div>";
+                        }
+                    } else {
+                    echo "<div class='post-div'>No posts found :'(</div>";
+                    }
+
+                    $mysqli->close();
+                    ?>
+                </div>
+                <?php
+                if ($_SESSION["loggedin"] == 1) {
+                ?>
+                <div id="postInputContainer">
+                    <form name="postForm" method="post" id="postForm" action="php/newPost">
+                        <input type="text" name="content" value="">
+                    </form>
+                </div>
+                <?php
+                }
+                ?>
             </div>
         </div>
         <div id="noAccountContainer">

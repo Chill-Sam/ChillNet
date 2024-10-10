@@ -6,6 +6,19 @@ body {
     background-color: #181A1B;
 }
 
+.post-div {
+    width: 90%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 30px;
+    overflow: hidden;
+    overflow-wrap: anywhere;
+    margin-left: 5%;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
 .largeHeader {
     width: 100%;
     text-align: center;
@@ -102,6 +115,10 @@ body {
     margin-bottom: 10px;
     border: thick double #ffffff;
     border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
 }
 
 /* No Account Popup */
@@ -301,6 +318,30 @@ body {
     height: 50%;
     font-size: 20px;
     border-radius: 20px;
+}
+
+#postListContainer {
+    height: 100%;
+    width: 100%;
+    overflow: scroll;
+}
+
+#postInputContainer {
+    width: 80%;
+    height: 5%;
+    margin-bottom: 15px;
+}
+
+#postForm {
+    width: 100%;
+    height: 100%;
+}
+
+#postForm input {
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
+    font-size: 16px;
 }
 
 /* Special settings for mobile */
