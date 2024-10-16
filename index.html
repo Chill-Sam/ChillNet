@@ -51,7 +51,7 @@ session_start();
                         die("Connection failed: " . $mysqli->connect_error);
                     }
                         
-                    $sql = "SELECT Content, AssUserId FROM Posts";
+                    $sql = "SELECT Content, AssUserId, PostDate FROM Posts ORDER BY PostDate DESC";
                     $result = $mysqli->query($sql);
 
                    
@@ -62,7 +62,7 @@ session_start();
                             $username_result = $mysqli->query($post_username);
                             $username_row = $username_result->fetch_assoc();
 
-                            echo "<div class='post-div'>" . htmlspecialchars($row["Content"]) . " - " . $username_row["Username"] . "</div>";
+                            echo "<div class='post-div'>" . htmlspecialchars($row["Content"]) . " - " . $username_row["Username"] . " - " . $row["PostDate"] . "</div>";
                         }
                     } else {
                     echo "<div class='post-div'>No posts found :'(</div>";
@@ -76,7 +76,7 @@ session_start();
                 ?>
                 <div id="postInputContainer">
                     <form name="postForm" method="post" id="postForm" action="php/newPost">
-                        <input type="text" name="content" value="">
+                        <input id="postInput" type="text" minlength="6" name="content" value="">
                     </form>
                 </div>
                 <?php

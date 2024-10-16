@@ -1,4 +1,4 @@
-function enableElement(id, enabled) {
+function toggleElement(id, enabled) {
     let element = document.getElementById(id);
     if (enabled) {
         element.removeAttribute("disabled");
@@ -21,26 +21,65 @@ function setPointerEvents(id, events) {
     }
 }
 
+function toggleChildButtons(id, toggle) {
+    const container_div = document.getElementById(id);
+    const buttons = container_div.getElementsByTagName("button");
+
+    for (let i = 0; i < buttons.length; i++) {
+        buttons[i].disabled = !Boolean(toggle);
+    }
+}
+
 function toggleNoAccountPopup(show) {
     setElementOpacity("noAccountContainer", show);
     setPointerEvents("noAccountContainer", show);
-    enableElement("closeNoAccountButton", show);
+    toggleChildButtons("noAccountContainer", show);
 }
 
 function toggleLogin(show) {
     setElementOpacity("loginContainer", show);
     setPointerEvents("loginContainer", show);
-    enableElement("closeLoginButton", show);
+    toggleElement("closeLoginButton", show);
     document.getElementById("usernameError").innerHTML = '';
     document.getElementById("passwordError").innerHTML = '';
     if (show) {
         document.getElementById("loginForm").reset();
     }
+    
+    toggleChildButtons("loginContainer", show);
+}
+
+function fetchAllPosts() {
+    $.ajax({
+        url: 'php/get_posts',
+        method: 'GET',
+        success: function(data) {
+            $('#postListContainer').html(data);
+        }
+    });
 }
 
 $(document).ready(function () {
+
+    fetchAllPosts();
+    setInterval(fetchAllPosts, 1000);
+
     document.getElementById("usernameError").innerHTML = '';
     document.getElementById("passwordError").innerHTML = '';
+
+    $('#postForm').submit(function(e) {
+        e.preventDefault();
+
+        var postInput = document.getElementById('postInput').value;
+  
+        // Trim the input value to remove leading/trailing spaces
+        if (postInput.trim() === "") {
+            // Prevent the form from submitting
+        }
+        else {
+            this.submit();
+        }
+    });
 
     $("#loginForm").submit(function(e) {
 
@@ -76,3 +115,4 @@ window.onload = function() {
     toggleNoAccountPopup(0);
     toggleLogin(0);
 }
+

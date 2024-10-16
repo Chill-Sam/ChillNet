@@ -323,7 +323,8 @@ body {
 #postListContainer {
     height: 100%;
     width: 100%;
-    overflow: scroll;
+    overflow-y: scroll;
+    overflow-x: hidden;
 }
 
 #postInputContainer {
@@ -350,5 +351,8 @@ body {
         justify-content: center;
         flex-direction: column;
         gap: 50px;
+    }
+    .post-div {
+        font-size: 20px !important;
     }
 }
