@@ -6,7 +6,7 @@ session_start();
 <html lang="en">
     <head>
         <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
         <title></title>
         <link href="css/index_style.css" rel="stylesheet">
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
@@ -30,16 +30,32 @@ session_start();
                     <?php
                     } else {
                     ?>
-                    <form action="php/logout" method="post">
-                        <button id="profileButton" type="submit"><img src="assets/no_account.png" alt="Acc"></button>
-                    </form>
+                        <button id="profileButton" type="button" onclick="toggleAccountPopup()"><img src="assets/no_account.png" alt="Acc"></button>
                     <?php 
                     } 
                     ?>
                 </div>
             </div>
         </div>
-        <div class="centerContainer"> 
+        <div class="centerContainer">
+            <div id="accountPopup">
+                <div style="width:100%;height:50px;display:flex;">
+                    <div class="largeParagraph" style="margin-top:5px;margin-left:10px">
+                        <?php
+                            echo "Account: " . $_SESSION["username"];
+                        ?>
+                    </div>
+                    <button class="hover-shade" type="button" style="position:absolute;margin-top:5px;right:10px;width:25px;height:25px;visibility:hidden;" onclick="toggleAccountPopup()">
+                        <img class="hover-shade" src="assets/exit.png" alt="X" style="width:25px;height:25px;visibility:visible;">
+                    </button>
+                </div>
+                <div id="optionHolder">
+                    <div><button type="button">Settings</button></div>
+                    <div><button type="button">Friends</button></div>
+                    <div><button type="button">Help</button></div>
+                    <form style="width:100%;height:100%"method="post" action="php/logout"><button type="submit">Logout</button></form>
+                </div>
+            </div>
             <div class="centerBox">
                 <div id="postListContainer">
                     <?php
@@ -84,6 +100,9 @@ session_start();
                 ?>
             </div>
         </div>
+        <?php
+        if ($_SESSION["loggedin"] != 1) {
+        ?>
         <div id="noAccountContainer">
             <div id="noAccountPopup">
                 <div id="closeNoAccountPopup">
@@ -122,6 +141,8 @@ session_start();
                 </div>
             </div>
         </div>
-
+        <?php
+        }
+        ?>
     </body>
 </html>

@@ -4,6 +4,15 @@ html {
 
 body {
     background-color: #181A1B;
+    overflow: hidden;
+}
+
+.hover-shade {
+    opacity: 1;
+    transition: 0.3s;
+}
+.hover-shade :hover{
+    opacity: 0.75;
 }
 
 .post-div {
@@ -109,7 +118,8 @@ body {
     position: absolute;
     top: 0;
     bottom: 0;
-    width: 60vw;
+    left: 0;
+    width: 70vw;
     height: auto;
     margin-top: 60px;
     margin-bottom: 10px;
@@ -345,6 +355,51 @@ body {
     font-size: 16px;
 }
 
+#accountPopup {
+    width: 250px;
+    height: 40%;
+    position: absolute;
+    top: 0;
+    right: -20%;
+    border: thick double #ffffff;
+    border-radius: 25px;
+    opacity: 0;
+    transition: 0.75s;
+    visibility: hidden;
+    background-color: #181A1B;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+#accountPopup.visible {
+    right: 0;
+}
+
+#optionHolder {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    flex: 1;
+}
+
+#optionHolder div,form {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#optionHolder button {
+    height: 80%;
+    width: 90%;
+    border-radius: 50px;
+    font-size: 24px;
+}
+
 /* Special settings for mobile */
 @media (max-width: 768px) { 
     #noAccountButtonContainer {
@@ -354,5 +409,9 @@ body {
     }
     .post-div {
         font-size: 20px !important;
+    }
+    .centerBox {
+        width: auto;
+        height: 90%;
     }
 }
