@@ -10,7 +10,8 @@ session_start();
         <title></title>
         <link href="css/index_style.css" rel="stylesheet">
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-        <script type="text/javascript" src="script/index_javascript.js"></script>
+        <script type="text/javascript" src="script/main.js"></script>
+        <script type="text/javascript" src="script/index.js"></script>
     </head>
     <body>
         <div class="topbarContainer">
@@ -26,11 +27,11 @@ session_start();
                     <?php
                     if ($_SESSION["loggedin"] != 1) {
                     ?>
-                    <button id="profileButton" type="button" onclick="toggleNoAccountPopup(1)"><img src="assets/no_account.png" alt="No account"></button>
+                    <button id="profileButton" type="button" onclick="showNoAccount(1)"><img src="assets/no_account.png" alt="No account"></button>
                     <?php
                     } else {
                     ?>
-                        <button id="profileButton" type="button" onclick="toggleAccountPopup()"><img src="assets/no_account.png" alt="Acc"></button>
+                        <button id="profileButton" type="button" onclick="showAccount(1)"><img src="assets/no_account.png" alt="Acc"></button>
                     <?php 
                     } 
                     ?>
@@ -45,7 +46,7 @@ session_start();
                             echo "Account: " . $_SESSION["username"];
                         ?>
                     </div>
-                    <button class="hover-shade" type="button" style="position:absolute;margin-top:5px;right:10px;width:25px;height:25px;visibility:hidden;" onclick="toggleAccountPopup()">
+                    <button class="hover-shade" type="button" style="position:absolute;margin-top:5px;right:10px;width:25px;height:25px;visibility:hidden;" onclick="showAccount(0)">
                         <img class="hover-shade" src="assets/exit.png" alt="X" style="width:25px;height:25px;visibility:visible;">
                     </button>
                 </div>
@@ -106,13 +107,13 @@ session_start();
         <div id="noAccountContainer">
             <div id="noAccountPopup">
                 <div id="closeNoAccountPopup">
-                    <button id="closeNoAccountButton" type="button" onclick="toggleNoAccountPopup(0)"><img src="assets/exit.png" alt="exit"></button>
+                    <button id="closeNoAccountButton" type="button" onclick="showNoAccount(0)"><img src="assets/exit.png" alt="exit"></button>
                 </div>
                 <div id="noAccountHeader">
                     <h1 class="largeHeader">You aren't logged in</h1>
                 </div>
                 <div id="noAccountButtonContainer">
-                    <button id="loginButton" type="button" onclick="toggleNoAccountPopup(0);toggleLogin(1);">Login</button>
+                    <button id="loginButton" type="button" onclick="showNoAccount(0);showLogin(1);">Login</button>
                     <button id="signupButton" type="button" onclick="window.location.href='sign_up_page'">Sign Up</button>
                 </div>
             </div>
@@ -122,7 +123,7 @@ session_start();
             <div id="login">
                 <div id="loginHeader">
                     <h1 class="largeHeader">Login to Chillnet</h1>
-                    <button id="closeLoginButton" type="button" onclick="toggleNoAccountPopup(1);toggleLogin(0);"><img src="assets/exit.png" alt="exit"></button>
+                    <button id="closeLoginButton" type="button" onclick="showNoAccount(1);showLogin(0);"><img src="assets/exit.png" alt="exit"></button>
                 </div>
                 <div id="loginFormContainer">
                     <form name="loginForm" method="post" id="loginForm">
