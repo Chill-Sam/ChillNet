@@ -1,0 +1,239 @@
+.post-div {
+    width: 90%;
+    font-size: 30px;
+    
+    overflow: hidden;
+    overflow-wrap: anywhere;
+    
+    margin-left: 5%;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+/* Topbar stuff */
+#topbarContainer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 50px;
+}
+
+#topbar {
+    height: 100%;
+    border-bottom: medium solid #ffffff;
+    display: flex;
+}
+
+#barUsername {
+    width: 25%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#barUsername p {
+    margin-left: 10px;
+    text-align: left;
+}
+
+#profile {
+    z-index: 1;
+    position: absolute;
+    right: 0;
+    width: 48px;
+    height: auto;
+
+    margin-top: 1px;
+    margin-bottom: 1px;
+    margin-right: 3px;
+}
+
+#profile button {
+    visibility: hidden;
+    width: 48px;
+    height: 48px;
+    opacity: 1;
+    transition: 0.3s;
+}
+
+#profile button:not(:disabled):hover {
+    opacity: 0.75;
+}
+
+#profile img {
+    position: absolute;
+    right: 0px;
+    top: 0px;
+    width: 48px;
+    height: auto;
+    
+    visibility: visible;
+    border-radius: 50%;
+}
+
+#centerBox {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    
+    width: 70vw;
+    height: auto;
+
+    margin-top: 60px;
+    margin-bottom: 10px;
+
+    border: thick double #ffffff;
+    border-radius: 20px;
+
+    flex-direction: column;
+}
+
+#postListContainer {
+    height: 100%;
+    width: 100%;
+
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+
+#postInputContainer {
+    width: 80%;
+    height: 5%;
+    margin-bottom: 15px;
+}
+
+#postForm {
+    width: 100%;
+    height: 100%;
+}
+
+#postForm input {
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
+    font-size: 24px;
+}
+
+/* No Account Popup */
+#noAccountContainer {
+    z-index: 1;
+    pointer-events: none;
+    background-color: rgba(0, 0, 0, 0.5);
+    opacity: 0;
+    transition: all 0.5s ease-in;
+}
+
+#noAccountPopup {
+    background-color: #181A1B;
+    width: 600px;
+    height: 300px;
+    border-radius: 20px;
+    border: thick solid #ffffff;
+    display: flex;
+    flex-direction: column;
+}
+
+#closeNoAccountPopup {
+    visibility: hidden;
+    margin-left: auto;
+    margin-top: 5px;
+    margin-right: 10px;
+    margin-bottom: -60px;
+    width: 25px;
+    height: 25px;
+    z-index: 1;
+}
+
+#closeNoAccountPopup img {
+    pointer-events: auto;
+    visibility: visible;
+    width: 24px;
+    height: auto;
+}
+
+#noAccountHeader {
+    margin-bottom: -70px;
+    width: 100%;
+    text-align: center;
+}
+
+#noAccountButtonContainer {
+    pointer-events: all;
+    width: 100%;
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    flex-flow: row wrap;
+}
+
+#noAccountButtonContainer button {
+    font-size: 45px;
+    width: 45%;
+    border-radius: 50px;
+    height: auto;
+}
+
+#accountPopup {
+    width: 250px;
+    height: 400px;
+    position: absolute;
+    top: 0;
+    right: -20%;
+    border: thick double #ffffff;
+    border-radius: 25px;
+    opacity: 0;
+    transition: 0.75s;
+    visibility: hidden;
+    background-color: #181A1B;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+#accountPopup.visible {
+    right: 0;
+}
+
+#optionHolder {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    flex: 1;
+}
+
+#optionHolder div,form {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#optionHolder button {
+    height: 80%;
+    width: 90%;
+    border-radius: 50px;
+    font-size: 24px;
+}
+
+/* Special settings for mobile */
+@media (max-width: 768px) { 
+    #noAccountButtonContainer {
+        justify-content: center;
+        flex-direction: column;
+        gap: 50px;
+    }
+    .post-div {
+        font-size: 20px !important;
+    }
+    .centerBox {
+        width: auto;
+        height: 90%;
+    }
+}

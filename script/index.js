@@ -43,6 +43,20 @@ $(document).ready(function () {
                 showAccount(false);
             }
         },
+        
+        function handleClickOutsideNoAccount(event) {
+            const noAccountPopup = document.getElementById("noAccountPopup");
+            const profileButton = document.getElementById("profileButton");
+            const container = document.getElementById("noAccountContainer");
+
+            let pressingNoPopup = noAccountPopup?.contains(event.target);
+            let pressingProfile = profileButton?.contains(event.target);
+            let isVisible = container?.style.pointerEvents == "all";
+
+            if (!pressingNoPopup && !pressingProfile && isVisible) {
+                showNoAccount(0);
+            }
+        },
     );
 
     $("#postForm").submit(function (e) {

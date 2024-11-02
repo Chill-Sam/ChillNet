@@ -1,0 +1,42 @@
+html {
+    color-scheme: dark !important;
+}
+
+body {
+    background-color: #181A1B;
+    overflow: hidden;
+}
+
+.largeHeader {
+    width: 100%;
+    text-align: center;
+    font-size: 50px;
+}
+
+.largeParagraph {
+    width: 100%;
+    font-size: 20px;
+}
+
+.hover-shade {
+    opacity: 1;
+    transition: 0.3s;
+}
+
+.hover-shade:hover{
+    opacity: 0.5;
+}
+
+.container {
+    position: absolute;
+    right: 0;
+    left: 0;
+    top: 0;
+    bottom: 0;
+}
+
+.flexcc {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
