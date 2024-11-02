@@ -6,10 +6,12 @@ function showNoAccount(show) {
 }
 
 function clearLoginErrors() {
-    const popupContainer = "#loginContainer"
-    $(popupContainer).find('label').each(function() {
-        $(this).empty();
-    });
+    const popupContainer = "#loginContainer";
+    $(popupContainer)
+        .find("label")
+        .each(function () {
+            $(this).empty();
+        });
 }
 
 function showLogin(show) {
@@ -30,11 +32,11 @@ function showAccount(show) {
 
 function updatePosts() {
     $.ajax({
-        url: 'php/get_posts',
-        method: 'GET',
-        success: function(data) {
-            $('#postListContainer').html(data);
-        }
+        url: "php/get_posts",
+        method: "GET",
+        success: function (data) {
+            $("#postListContainer").html(data);
+        },
     });
 }
 
@@ -45,7 +47,7 @@ $(document).ready(function () {
     clearLoginErrors();
 
     document.addEventListener(
-        'click',
+        "click",
         function handleClickOutsideAccount(event) {
             const accountPopup = document.getElementById("accountPopup");
             const profileButton = document.getElementById("profileButton");
@@ -57,12 +59,12 @@ $(document).ready(function () {
             if (!pressingPopup && !pressingProfile && isVisible) {
                 showAccount(false);
             }
-        }
+        },
     );
 
-    $("#postForm").submit(function(e) {
+    $("#postForm").submit(function (e) {
         e.preventDefault();
-        
+
         var postContent = $("#postInput").val();
 
         if (postContent.trim() !== "") {
@@ -70,22 +72,21 @@ $(document).ready(function () {
         }
     });
 
-    $("#loginForm").submit(function(e) {
+    $("#loginForm").submit(function (e) {
         e.preventDefault();
 
         const form = $(this);
 
-       $.ajax({
+        $.ajax({
             type: "POST",
             url: "php/loginUser",
             data: form.serialize(), // serializes the form's elements.
-            success: function(data)
-            {
+            success: function (data) {
                 const usernameError = $("#usernameError");
                 const passwordError = $("#passwordError");
 
                 const noAccountError = "Account does not exist";
-                const wrongPasswordError = "Incorrect password"; 
+                const wrongPasswordError = "Incorrect password";
 
                 switch (data) {
                     case "NA":
@@ -102,12 +103,12 @@ $(document).ready(function () {
                         location.reload();
                         break;
                 }
-            }
+            },
         });
     });
 });
 
-window.onload = function() {
-    showNoAccount(false);
-    showLogin(false);
-}
+window.onload = function () {
+    showNoAccount(0);
+    showLogin(0);
+};
