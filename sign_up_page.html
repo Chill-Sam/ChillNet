@@ -10,7 +10,9 @@ session_start();
         <title></title>
         <link href="css/sign_up_page_style.css" rel="stylesheet">
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-        <script type="text/javascript" src="script/sign_up_page_javascript.js"></script>
+        <script type="text/javascript" src="script/main.js"></script>
+        <script type="text/javascript" src="script/login.js"></script>
+        <script type="text/javascript" src="script/sign_up_page.js"></script>
     </head>
     <body>
     <a class="largeParagraph" style="z-index:10;width:40px;height:40px;margin-right:-40px;margin-bottom:-40px;" href="/">X</a>
@@ -55,22 +57,22 @@ session_start();
         <form name="signUpForm" class="form">
             <div id="signUpFormContainer">
                 <div id="usernameInput">
-                    <input type="text" name="username" id="username" placeholder="Username" minlength="6" maxlength="15" onblur="checkIfUserExists()" onchange="checkIfUserExists()" pattern="[A-Za-z0-9_\-]+" title="Only use A-Z, a-z, numbers, - and _." required>
+                    <input type="text" name="username" id="username" placeholder="Username" minlength="6" maxlength="15" onblur="userExists()" onchange="userExists()" pattern="[A-Za-z0-9_\-]+" title="Only use A-Z, a-z, numbers, - and _." required>
                     <label class="loginErrorLabel" id="userError" for="username"></label>
                 </div>
                 <div id="emailInput">
-                    <input type="email" name="email" id="user_email" placeholder="Email" maxlength="100" onblur="checkIfUserExists()" onchange="checkIfUserExists()" required>
+                    <input type="email" name="email" id="user_email" placeholder="Email" maxlength="100" onblur="userExists()" onchange="userExists()" required>
                     <label class="loginErrorLabel" id="emailError" for="email"></label>
                 </div>
                 <div id="passwordInput">
-                    <input type="password" name="password" id="password" placeholder="Password" minlength="8" maxlength="18" onblur="confirmPasswordCheck()" oninput="confirmPasswordCheck()" required>
+                    <input type="password" name="password" id="password" placeholder="Password" minlength="8" maxlength="18" onblur="checkPassword()" oninput="checkPassword()" required>
                 </div>
                 <div id="passwordConfirmInput">
-                    <input type="password" name="passwordConfirm" placeholder="Confirm Password" minlength="8" maxlength="18" onblur="confirmPasswordCheck()" oninput="confirmPasswordCheck()" required>
+                    <input type="password" name="passwordConfirm" placeholder="Confirm Password" minlength="8" maxlength="18" onblur="checkPassword()" oninput="checkPassword()" required>
                 </div>
                 <div id="submitForm">
                     <button id="submitSignUpFormButton" type="button" onclick="confirmEmail()" disabled="disabled">Create new account</button>
-                    <button type="button" onclick="toggleLogin(1);">Log in</button>
+                    <button id="loginButton" type="button" onclick="showLogin(1);">Log in</button>
                 </div>
             </div>
         </form>
@@ -79,7 +81,7 @@ session_start();
         <div id="login">
             <div id="loginHeader">
                 <h1 class="largeHeader">Login to Chillnet</h1>
-                <button type="button" onclick="toggleLogin(0);"><img src="assets/exit.png" alt="exit"></button>
+                <button type="button" onclick="showLogin(0);"><img src="assets/exit.png" alt="exit"></button>
             </div>
             <div id="loginFormContainer">
                 <form name="loginForm" method="post" id="loginForm">
