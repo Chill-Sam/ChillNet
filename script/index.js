@@ -62,9 +62,9 @@ $(document).ready(function () {
     $("#postForm").submit(function (e) {
         e.preventDefault();
 
-        var postContent = $("#postInput").val();
+        var postContent = $("#postInput").val().trim();
 
-        if (postContent.trim() !== "") {
+        if (postContent !== "" && postContent.length > 5) {
             this.submit();
         }
     });
