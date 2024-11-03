@@ -16,21 +16,17 @@ function showLogin(show) {
 }
 
 $(document).ready(function () {
+    document.addEventListener("click", function handleClickOutsideLogin(event) {
+        const login = document.getElementById("login");
+        const loginButton = document.getElementById("loginButton");
 
-    document.addEventListener(
-        "click",
-        function handleClickOutsideLogin(event) {
-            const login = document.getElementById("login");
-            const loginButton = document.getElementById("loginButton");
+        var pressingLogin = login?.contains(event.target);
+        var pressingLoginButton = loginButton?.contains(event.target);
 
-            var pressingLogin = login?.contains(event.target);
-            var pressingLoginButton = loginButton?.contains(event.target);
-        
-            if (!pressingLogin && !pressingLoginButton && (login && loginButton)) {
-                showLogin(0);
-            }
+        if (!pressingLogin && !pressingLoginButton && login && loginButton) {
+            showLogin(0);
         }
-    );
+    });
 
     $("#loginForm").submit(function (e) {
         e.preventDefault();
@@ -67,4 +63,3 @@ $(document).ready(function () {
         });
     });
 });
-

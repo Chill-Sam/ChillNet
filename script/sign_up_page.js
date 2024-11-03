@@ -95,12 +95,12 @@ function confirmEmail() {
         url: "php/sendConfirmEmail",
         type: "post",
         async: true,
-        datatype: 'json',
-        data: {email: email.value, code: confirmationCode},
-        error: function(){
+        datatype: "json",
+        data: { email: email.value, code: confirmationCode },
+        error: function () {
             alert("Email could not be sent");
-        }
-    })
+        },
+    });
 }
 
 function validateConfirmCode() {
@@ -110,20 +110,24 @@ function validateConfirmCode() {
         let username = document.forms["signUpForm"]["username"];
         let email = document.forms["signUpForm"]["email"];
         let password = document.forms["signUpForm"]["password"];
-        
+
         $.ajax({
             url: "php/createUser",
             type: "post",
             async: false,
-            datatype: 'json',
-            data: {username: username.value, email: email.value, password: password.value},
-            error: function() {
+            datatype: "json",
+            data: {
+                username: username.value,
+                email: email.value,
+                password: password.value,
+            },
+            error: function () {
                 alert("User could not be created.");
             },
-            success: function() {
+            success: function () {
                 window.location.replace("/");
-            }
-        })
+            },
+        });
     }
 }
 
@@ -131,10 +135,10 @@ $(document).ready(function () {
     clearLoginErrors();
 });
 
-window.onload = function() {
+window.onload = function () {
     $("#confirmCode").empty();
     validateSignUpForm();
-}
+};
 
 setInterval(validateSignUpForm, 100);
 setInterval(validateConfirmCode, 100);

@@ -43,7 +43,7 @@ $(document).ready(function () {
                 showAccount(false);
             }
         },
-        
+
         function handleClickOutsideNoAccount(event) {
             const noAccountPopup = document.getElementById("noAccountPopup");
             const profileButton = document.getElementById("profileButton");
