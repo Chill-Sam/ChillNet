@@ -5,7 +5,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $email = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_EMAIL);
     $password = filter_input(INPUT_POST, 'password', FILTER_SANITIZE_STRING);
     $confirmPassword = filter_input(INPUT_POST, 'passwordConfirm', FILTER_SANITIZE_STRING);
-    $userExists = $_POST['userExists'];
+    $userExists = filter_input(INPUT_POST, 'userExists', FILTER_SANITIZE_STRING);
 
     function validateSignUp($username, $email, $password, $confirmPassword, $userExistResult)
     {
@@ -72,5 +72,4 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         echo json_encode(['success' => true, 'message' => 'Validation passed!']);
     }
 }
-
 ?>

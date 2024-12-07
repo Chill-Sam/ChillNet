@@ -1,3 +1,5 @@
+const delay = (ms) => new Promise((res) => setTimeout(res, ms));
+
 // Animations
 const container = document.getElementById("sign-container");
 const registerBtn = document.getElementById("register");
@@ -79,15 +81,42 @@ function displayEnterCode() {
     sign.classList.toggle("hide");
 }
 
-async function isCorrectCode(email, otp) {
+async function waitCreationOTP() {
+    return new Promise((resolve) => {
+        button.addEventListener("click", async function () {
+            let inputCode = "";
+            inputs.forEach((input) => {
+                inputCode += input.value;
+            });
 
+            const form = $("#signup-form");
+            const email = form[0]["email"].value;
+            $.ajax({
+                type: "POST",
+                url: "/php/signin/creationOTP",
+                data: { action: "verify_otp", email: email, otp: inputCode },
+            });
+
+            await delay(200);
+
+            let response = await $.ajax({
+                type: "POST",
+                url: "/php/signin/creationOTP",
+                data: { action: "check_verification", email: email },
+            });
+
+            if (response.trim() === "OTP verified.") {
+                resolve(response);
+            }
+        });
+    });
 }
 
 // Form Validation
 // Checks if user exists
 async function checkUserExists(username, email) {
     return $.ajax({
-        url: "http://chillsam.ddns.net/php/userExists",
+        url: "/php/signin/userExists",
         type: "post",
         datatype: "json",
         data: { username, email },
@@ -103,7 +132,7 @@ async function validateSignUp(
     userExists,
 ) {
     return $.ajax({
-        url: "http://chillsam.ddns.net/php/validateSignUp",
+        url: "/php/signin/validateSignUp",
         type: "post",
         datatype: "json",
         data: {
@@ -115,8 +144,6 @@ async function validateSignUp(
         },
     });
 }
-
-// Account creation
 
 $("#signup-form").submit(async function (e) {
     e.preventDefault();
@@ -154,16 +181,23 @@ $("#signup-form").submit(async function (e) {
         console.error("Validation Error:", error);
     }
 
+    displayEnterCode();
+
     $.ajax({
-        url: "http://chillsam.ddns.net/php/sendConfirmEmail",
-        type: "post",
-        datatype: "json",
-        data: { email: email.value },
-        error: function () {
-            alert("Email could not be sent");
-        },
+        type: "POST",
+        url: "/php/signin/creationOTP",
+        data: { action: "send_otp", email: email },
     });
 
+    await waitCreationOTP();
+
+    await $.ajax({
+        type: "POST",
+        url: "/php/signin/createUser",
+        data: { username, email, password },
+    });
+
+    window.location.replace("/");
 });
 
 // Log in
@@ -174,7 +208,7 @@ $("#login-form").submit(async function (e) {
 
     const result = await $.ajax({
         type: "POST",
-        url: "http://chillsam.ddns.net/php/loginUser",
+        url: "/php/loginUser",
         data: form.serialize(), // serializes the form's elements.
     });
 
