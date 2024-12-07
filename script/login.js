@@ -56,7 +56,6 @@ $(document).ready(function () {
                     default:
                         usernameError.empty();
                         passwordError.empty();
-                        window.location.replace("/");
                         break;
                 }
             },

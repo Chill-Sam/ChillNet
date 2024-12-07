@@ -2,4 +2,4 @@ vendor/
 composer*
 .htaccess
 .prettierrc
-php
+db_config.php
