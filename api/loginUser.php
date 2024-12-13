@@ -48,7 +48,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $stmt->bind_result($username);
 
             if ($stmt->fetch()) {
-                $_SESSION['username'] = $username;
                 $_SESSION['loggedin'] = true;
                 $_SESSION['UserId'] = $user_id;
                 $stmt->close();

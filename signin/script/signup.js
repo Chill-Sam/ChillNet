@@ -93,7 +93,7 @@ async function waitCreationOTP() {
             const email = form[0]["email"].value;
             $.ajax({
                 type: "POST",
-                url: "/php/signin/creationOTP",
+                url: "/api/signin/creationOTP",
                 data: { action: "verify_otp", email: email, otp: inputCode },
             });
 
@@ -101,7 +101,7 @@ async function waitCreationOTP() {
 
             let response = await $.ajax({
                 type: "POST",
-                url: "/php/signin/creationOTP",
+                url: "/api/signin/creationOTP",
                 data: { action: "check_verification", email: email },
             });
 
@@ -116,7 +116,7 @@ async function waitCreationOTP() {
 // Checks if user exists
 async function checkUserExists(username, email) {
     return $.ajax({
-        url: "/php/signin/userExists",
+        url: "/api/signin/userExists",
         type: "post",
         datatype: "json",
         data: { username, email },
@@ -132,7 +132,7 @@ async function validateSignUp(
     userExists,
 ) {
     return $.ajax({
-        url: "/php/signin/validateSignUp",
+        url: "/api/signin/validateSignUp",
         type: "post",
         datatype: "json",
         data: {
@@ -185,7 +185,7 @@ $("#signup-form").submit(async function (e) {
 
     $.ajax({
         type: "POST",
-        url: "/php/signin/creationOTP",
+        url: "/api/signin/creationOTP",
         data: { action: "send_otp", email: email },
     });
 
@@ -193,7 +193,7 @@ $("#signup-form").submit(async function (e) {
 
     await $.ajax({
         type: "POST",
-        url: "/php/signin/createUser",
+        url: "/api/signin/createUser",
         data: { username, email, password },
     });
 
@@ -208,7 +208,7 @@ $("#login-form").submit(async function (e) {
 
     const result = await $.ajax({
         type: "POST",
-        url: "/php/loginUser",
+        url: "/api/loginUser",
         data: form.serialize(), // serializes the form's elements.
     });
 

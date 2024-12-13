@@ -35,7 +35,7 @@ $(document).ready(function () {
 
         $.ajax({
             type: "POST",
-            url: "php/loginUser",
+            url: "api/loginUser",
             data: form.serialize(), // serializes the form's elements.
             success: function (data) {
                 const usernameError = $("#usernameError");

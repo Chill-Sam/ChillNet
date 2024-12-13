@@ -15,7 +15,7 @@ function showAccount(show) {
 
 function updatePosts() {
     $.ajax({
-        url: "php/get_posts",
+        url: "api/get_posts",
         method: "GET",
         success: function (data) {
             $("#postListContainer").html(data);
