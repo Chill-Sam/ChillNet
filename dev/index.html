@@ -1,0 +1,69 @@
+<?php
+session_start();
+?>
+
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Chillnet</title>
+        <link rel="stylesheet" type="text/css" href="css/style.css" />
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+        <link
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+        />
+    </head>
+    <body>
+        <div class="cover"></div>
+        <header id="navbar">
+            <nav class="navbar-container">
+                <div class="navbar-message">
+                    <img src="/assets/no_account.png" alt="" />
+                </div>
+                <div class="search">
+                    <input
+                        type="text"
+                        class="navbar-search"
+                        placeholder="Search ..."
+                    />
+                    <i class="bi bi-search"></i>
+                </div>
+                <button type="button" id="navbar-toggle">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+            </nav>
+        </header>
+        <div class="menu">
+            <menu>
+                <li><button type="button" id="menu-close">Close</button></li>
+                <li>
+                    <button type="button" id="menu-settings">Settings</button>
+                </li>
+                <li><button type="button" id="menu-about">About</button></li>
+                <li><button type="button" id="menu-github">Github</button></li>
+                <li><button type="button" id="menu-logout">Logout</button></li>
+            </menu>
+        </div>
+        <div class="main-grid">
+            <div id="posts-container"></div>
+            <div class="sidebar"></div>
+            <form class="new-post" method="post" action="/api/newPost">
+                <input
+                    id="postInput"
+                    type="text"
+                    minlength="6"
+                    name="content"
+                    value=""
+                />
+            </form>
+        </div>
+        <script type="text/javascript">
+            var SESSION_USERID = '<?php echo $_SESSION["UserId"];?>';
+        </script>
+        <script src="script/index.js"></script>
+    </body>
+</html>
