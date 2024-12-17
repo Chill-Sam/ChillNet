@@ -17,11 +17,17 @@ class PostWebSocket implements MessageComponentInterface
         if ($this->db->connect_error) {
             die('Connection failed: ' . $this->db->connect_error);
         }
+
+        $this->db->query('SET SESSION wait_timeout = 28800');
     }
 
     public function onOpen(ConnectionInterface $conn)
     {
         echo "New connection to PostWebSocket: {$conn->resourceId}\n";
+
+        if (!$this->db->ping()) {
+            $this->reconnectDatabase();
+        }
 
         $query = 'SELECT * FROM Posts ORDER BY PostDate DESC LIMIT 15';
         $result = $this->db->query($query);
