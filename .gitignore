@@ -3,3 +3,4 @@ composer*
 .htaccess
 .prettierrc
 db_config.php
+*.log
