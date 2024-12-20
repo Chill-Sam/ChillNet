@@ -1,4 +1,6 @@
 let userCache = {};
+let count = 0;
+let isLoadingPosts = false;
 
 function toggleMenu() {
     const menu = $(".menu");
@@ -25,9 +27,12 @@ async function fetchUserDetails(UserId) {
 
 async function handleNewPosts(posts) {
     for (const post of posts) {
+        count++;
         const user = await fetchUserDetails(post.AssUserId);
         const date = new Date(post.PostDate + "Z").toLocaleDateString();
-        const time = new Date(post.PostDate + "Z").toLocaleTimeString("en-US", {hour12: false});
+        const time = new Date(post.PostDate + "Z").toLocaleTimeString("en-US", {
+            hour12: false,
+        });
         $("#posts-container").append(`
             <div class="post">
                 <div class="post-header">
@@ -92,10 +97,15 @@ $(document).ready(function () {
     postsSocket.onopen = function () {};
 
     postsSocket.onmessage = function (event) {
+        isLoadingPosts = false;
+
         const message = JSON.parse(event.data);
 
         switch (message.type) {
             case "latest_posts":
+                handleNewPosts(message.data);
+                break;
+            case "older_posts":
                 handleNewPosts(message.data);
                 break;
             default:
@@ -106,4 +116,27 @@ $(document).ready(function () {
     postsSocket.onclose = function () {};
 
     postsSocket.onerror = function (error) {};
+
+    $("#posts-container").on("scroll", function () {
+        const container = $(this);
+
+        if (
+            container.scrollTop() + container.innerHeight() >=
+            container[0].scrollHeight
+        ) {
+            if (isLoadingPosts) {
+                return;
+            }
+
+            getMorePosts(count);
+            isLoadingPosts = true;
+        }
+    });
+
+    function getMorePosts(index) {
+        console.log("crazy");
+        postsSocket.send(
+            JSON.stringify({ action: "load_more_posts", index: index }),
+        );
+    }
 });

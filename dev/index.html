@@ -1,5 +1,8 @@
 <?php
 session_start();
+if ($_SESSION["loggedin"] != 1) {
+    header('Location: '.'http://chillsam.ddns.net/signin');
+}
 ?>
 
 <!doctype html>
@@ -49,7 +52,9 @@ session_start();
             </menu>
         </div>
         <div class="main-grid">
-            <div id="posts-container"></div>
+            <div id="posts-container">
+                <h1>What is going on right now?</h1>
+            </div>
             <div class="sidebar"></div>
             <form class="new-post" method="post" action="/api/newPost">
                 <input
