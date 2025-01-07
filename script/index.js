@@ -1,76 +1,146 @@
-function showNoAccount(show) {
-    const popupContainer = "#noAccountContainer";
-    setOpacity(popupContainer, show);
-    setPointerEvents(popupContainer, show);
-    enableChildren(popupContainer, show);
+let userCache = {};
+let count = 0;
+let isLoadingPosts = false;
+
+const delay = (ms) => new Promise((res) => setTimeout(res, ms));
+
+function toggleMenu() {
+    const menu = $(".menu");
+    const cover = $(".cover");
+    menu.toggleClass("visible");
+    cover.toggleClass("on");
 }
 
-function showAccount(show) {
-    const accountPopup = "#accountPopup";
-    setOpacity(accountPopup, show);
-    setPointerEvents(accountPopup, show);
-    setVisibility(accountPopup, show);
-    $(accountPopup).css("right", show ? "0" : "-20%");
+async function fetchUserDetails(UserId) {
+    if (userCache[UserId] !== undefined) {
+        return Promise.resolve(userCache[UserId]);
+    } else {
+        return $.ajax({
+            url: "/api/getUser",
+            method: "GET",
+            data: { UserId: UserId },
+            dataType: "json",
+        }).then((response) => {
+            userCache[UserId] = response.data;
+            return response.data;
+        });
+    }
 }
 
-function updatePosts() {
-    $.ajax({
-        url: "api/get_posts",
-        method: "GET",
-        success: function (data) {
-            $("#postListContainer").html(data);
-        },
-    });
+async function handleNewPosts(posts) {
+    for (const post of posts) {
+        count++;
+        const user = await fetchUserDetails(post.AssUserId);
+        const date = new Date(post.PostDate + "Z").toLocaleDateString();
+        const time = new Date(post.PostDate + "Z").toLocaleTimeString("en-US", {
+            hour12: false,
+        });
+        $("#posts-container").append(`
+            <div class="post">
+                <div class="post-header">
+                    <h1>${user.Username}</h1>
+                    <div class="post-time">
+                        <h2>${date}</h2>
+                        <h4>${time}</h4>
+                    </div>
+                </div>
+                <p>${post.Content}</p>
+            </div>
+            `);
+    }
 }
 
-$(document).ready(function () {
-    updatePosts();
-    setInterval(updatePosts, 1000);
-
-    clearLoginErrors();
-
-    document.addEventListener(
-        "click",
-        function handleClickOutsideAccount(event) {
-            const accountPopup = document.getElementById("accountPopup");
-            const profileButton = document.getElementById("profileButton");
-
-            let pressingPopup = accountPopup?.contains(event.target);
-            let pressingProfile = profileButton?.contains(event.target);
-            let isVisible = accountPopup?.style.opacity == 1;
-
-            if (!pressingPopup && !pressingProfile && isVisible) {
-                showAccount(false);
-            }
-        },
-
-        function handleClickOutsideNoAccount(event) {
-            const noAccountPopup = document.getElementById("noAccountPopup");
-            const profileButton = document.getElementById("profileButton");
-            const container = document.getElementById("noAccountContainer");
-
-            let pressingNoPopup = noAccountPopup?.contains(event.target);
-            let pressingProfile = profileButton?.contains(event.target);
-            let isVisible = container?.style.pointerEvents == "all";
-
-            if (!pressingNoPopup && !pressingProfile && isVisible) {
-                showNoAccount(0);
-            }
-        },
-    );
-
-    $("#postForm").submit(function (e) {
-        e.preventDefault();
-
-        var postContent = $("#postInput").val().trim();
-
-        if (postContent !== "" && postContent.length > 5) {
-            this.submit();
-        }
-    });
+$("#navbar-toggle").on("click", function () {
+    toggleMenu();
 });
 
-window.onload = function () {
-    showNoAccount(0);
-    showLogin(0);
-};
+$("#menu-close").on("click", function () {
+    toggleMenu();
+});
+
+$("#menu-settings").on("click", function () {});
+
+$("#menu-about").on("click", function () {});
+
+$("#menu-github").on("click", function () {
+    window.location.replace("https://github.com/Chill-Sam/ChillNet");
+});
+
+$("#menu-logout").on("click", async function () {
+    await $.ajax({
+        type: "POST",
+        url: "/api/logout",
+    });
+    window.location.replace("/signin");
+});
+
+$(".cover").on("click", function (e) {
+    if (!$(this).hasClass("on")) {
+        return;
+    }
+
+    if (!$(e.target).is(".menu")) {
+        toggleMenu();
+    }
+});
+
+$(document).ready(function () {
+    if (!(SESSION_USERID === "")) {
+        (async () => {
+            const curUser = await fetchUserDetails(Number(SESSION_USERID));
+            $(".navbar-message").append(curUser.Username);
+        })();
+    }
+
+    const postsSocket = new WebSocket(
+        "ws://chillsam.ddns.net:8080/websocket/posts",
+    );
+
+    postsSocket.onopen = function () {};
+
+    postsSocket.onmessage = function (event) {
+        isLoadingPosts = false;
+
+        const message = JSON.parse(event.data);
+
+        switch (message.type) {
+            case "latest_posts":
+                handleNewPosts(message.data);
+                break;
+            case "older_posts":
+                handleNewPosts(message.data);
+                break;
+            default:
+                break;
+        }
+    };
+
+    postsSocket.onclose = function () {};
+
+    postsSocket.onerror = function (error) {};
+
+    $("#posts-container").on("scroll", async function () {
+        await delay(750);
+
+        const container = $(this);
+
+        if (
+            container.scrollTop() + container.innerHeight() >=
+            container[0].scrollHeight
+        ) {
+            if (isLoadingPosts) {
+                return;
+            }
+
+            getMorePosts(count);
+            isLoadingPosts = true;
+        }
+    });
+
+    function getMorePosts(index) {
+        console.log("crazy");
+        postsSocket.send(
+            JSON.stringify({ action: "load_more_posts", index: index }),
+        );
+    }
+});
