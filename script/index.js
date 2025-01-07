@@ -138,7 +138,6 @@ $(document).ready(function () {
     });
 
     function getMorePosts(index) {
-        console.log("crazy");
         postsSocket.send(
             JSON.stringify({ action: "load_more_posts", index: index }),
         );
