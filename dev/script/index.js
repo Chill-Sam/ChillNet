@@ -2,6 +2,8 @@ let userCache = {};
 let count = 0;
 let isLoadingPosts = false;
 
+const delay = (ms) => new Promise((res) => setTimeout(res, ms));
+
 function toggleMenu() {
     const menu = $(".menu");
     const cover = $(".cover");
@@ -117,7 +119,9 @@ $(document).ready(function () {
 
     postsSocket.onerror = function (error) {};
 
-    $("#posts-container").on("scroll", function () {
+    $("#posts-container").on("scroll", async function () {
+        await delay(750);
+
         const container = $(this);
 
         if (
