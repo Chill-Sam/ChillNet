@@ -215,7 +215,7 @@ body {
 #posts-container {
     padding: 15px;
     overflow-y: auto;
-    overflow-x: hidden
+    overflow-x: hidden;
 }
 
 .post {
@@ -272,6 +272,7 @@ body {
 .sidebar {
     width: 100%;
     height: 100%;
+    padding: 10px 50px;
     border: 4px solid;
     border-image: linear-gradient(
             to top right,
