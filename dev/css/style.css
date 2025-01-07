@@ -282,3 +282,29 @@ body {
         )
         0 0 0 100%;
 }
+
+.loading-indicator {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.spinner {
+    border: 4px solid rgba(255, 255, 255, 1);
+    border-left-color: #000;
+    border-radius: 50%;
+    width: 96px;
+    height: 96px;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
