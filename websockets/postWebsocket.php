@@ -12,7 +12,7 @@ class PostWebSocket implements MessageComponentInterface
     {
         include 'db_config.php';
 
-        $this->db = new mysqli($servername, $username, $password, $database);
+        $this->db = new mysqli('p:' . $servername, $username, $password, $database);
 
         if ($this->db->connect_error) {
             die('Connection failed: ' . $this->db->connect_error);
