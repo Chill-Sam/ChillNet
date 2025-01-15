@@ -94,6 +94,14 @@ $(".cover").on("click", function (e) {
 });
 
 $(document).ready(function () {
+    let debounceTimer;
+
+    // Debounce function to delay AJAX requests
+    const debounce = (callback, delay) => {
+        clearTimeout(debounceTimer);
+        debounceTimer = setTimeout(callback, delay);
+    };
+
     if (!(SESSION_USERID === "")) {
         (async () => {
             const curUser = await fetchUserDetails(Number(SESSION_USERID));
@@ -153,4 +161,30 @@ $(document).ready(function () {
             JSON.stringify({ action: "load_more_posts", index: index }),
         );
     }
+
+    $("#navbar-search").on("input", function () {
+        const navbar = $(this);
+        const query = navbar.val().trim();
+
+        if (query.length === 0) {
+            console.log("no input");
+            return;
+        }
+
+        debounce(() => {
+            $.ajax({
+                url: '/api/searchUser',
+                type: 'GET',
+                data: { search: query },
+                dataType: 'json',
+                success: function (response) {
+                    if (response.success) {
+                        console.table(response.data);
+                    } else {
+                        console.log("no users")
+                    }
+                }
+            })
+        }, 100);
+    });
 });
