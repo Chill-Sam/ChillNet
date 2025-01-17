@@ -106,7 +106,7 @@ class PostWebSocket implements MessageComponentInterface
                 if ($attempts >= $this->maxRetries - 1) {
                     throw new Exception('Query failed after retries: ' . $e->getMessage());
                 }
-                $this->mysqli->close();
+                $this->db->close();
                 $this->connect();
             }
             $attempts++;
