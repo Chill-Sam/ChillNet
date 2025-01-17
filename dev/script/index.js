@@ -72,7 +72,7 @@ $("#menu-settings").on("click", function () {});
 $("#menu-about").on("click", function () {});
 
 $("#menu-github").on("click", function () {
-    window.location.replace("https://github.com/Chill-Sam/ChillNet");
+    window.location.href = ("https://github.com/Chill-Sam/ChillNet");
 });
 
 $("#menu-logout").on("click", async function () {
@@ -80,7 +80,7 @@ $("#menu-logout").on("click", async function () {
         type: "POST",
         url: "/api/logout",
     });
-    window.location.replace("/signin");
+    window.location.href = ("/signin");
 });
 
 $(".cover").on("click", function (e) {
@@ -197,6 +197,11 @@ $(document).ready(function () {
                 const children = results.children().length;
                 const height = 80 * children + (children - 1) * 10 + 50;
                 results.css("height", height + "px");
+
+                $(".search-result").on("click", function () {
+                    window.location.href =
+                        "/users/" + $(this).prop("outerText");
+                });
             });
         }, 200);
     });
