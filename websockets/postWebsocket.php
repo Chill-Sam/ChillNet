@@ -7,18 +7,11 @@ use Ratchet\MessageComponentInterface;
 class PostWebSocket implements MessageComponentInterface
 {
     private $db;
+    private $maxRetries = 3;
 
     public function __construct()
     {
-        include 'db_config.php';
-
-        $this->db = new mysqli('p:' . $servername, $username, $password, $database);
-
-        if ($this->db->connect_error) {
-            die('Connection failed: ' . $this->db->connect_error);
-        }
-
-        $this->db->query('SET SESSION wait_timeout = 28800');
+        $this->connect();
     }
 
     public function onOpen(ConnectionInterface $conn)
@@ -81,23 +74,43 @@ class PostWebSocket implements MessageComponentInterface
         $conn->close();
     }
 
+    private function connect()
+    {
+        include 'db_config.php';
+        $this->db = new mysqli('p:' . $servername, $username, $password, $database);
+
+        if ($this->db->connect_error) {
+            die('Connection failed: ' . $this->db->connect_error);
+        }
+
+        $this->db->query('SET SESSION wait_timeout = 28800');
+    }
+
     private function getLatestPosts()
     {
-        if (!$this->db->ping()) {
-            $this->reconnectDatabase();
-        }
+        $attempts = 0;
+        while ($attempts < $this->maxRetries) {
+            try {
+                $query = 'SELECT * FROM Posts ORDER BY PostDate DESC LIMIT 15';
+                $result = $this->db->query($query);
 
-        $query = 'SELECT * FROM Posts ORDER BY PostDate DESC LIMIT 15';
-        $result = $this->db->query($query);
+                $posts = [];
+                if ($result && $result->num_rows > 0) {
+                    while ($row = $result->fetch_assoc()) {
+                        $posts[] = $row;  // Collect posts in an array
+                    }
+                }
 
-        $posts = [];
-        if ($result && $result->num_rows > 0) {
-            while ($row = $result->fetch_assoc()) {
-                $posts[] = $row;  // Collect posts in an array
+                return $posts;
+            } catch (Exception $e) {
+                if ($attempts >= $this->maxRetries - 1) {
+                    throw new Exception('Query failed after retries: ' . $e->getMessage());
+                }
+                $this->mysqli->close();
+                $this->connect();
             }
+            $attempts++;
         }
-
-        return $posts;
     }
 
     private function getMorePosts($index)
