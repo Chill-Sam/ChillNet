@@ -94,6 +94,14 @@ $(".cover").on("click", function (e) {
 });
 
 $(document).ready(function () {
+    let debounceTimer;
+
+    // Debounce function to delay AJAX requests
+    const debounce = (callback, delay) => {
+        clearTimeout(debounceTimer);
+        debounceTimer = setTimeout(callback, delay);
+    };
+
     if (!(SESSION_USERID === "")) {
         (async () => {
             const curUser = await fetchUserDetails(Number(SESSION_USERID));
@@ -153,4 +161,43 @@ $(document).ready(function () {
             JSON.stringify({ action: "load_more_posts", index: index }),
         );
     }
+
+    $("#navbar-search").on("input", function () {
+        const navbar = $(this);
+        const query = navbar.val().trim();
+        const results = $("#search-results");
+
+        debounce(() => {
+            $.ajax({
+                url: "/api/searchUser",
+                type: "GET",
+                data: { search: query },
+                dataType: "json",
+            }).then((response) => {
+                const users = response.data;
+                results.empty();
+                if (query.length === 0) {
+                    results.css("height", "0px");
+                    return;
+                }
+
+                if (!response.success) {
+                    results.css("height", "0px");
+                    return;
+                }
+                users.forEach((user) => {
+                    results.append(`
+                        <button class="search-result">
+                            <img src="/assets/no_account.png" alt="" />
+                                ${user[0]}
+                        </button>
+                            `);
+                });
+
+                const children = results.children().length;
+                const height = 80 * children + (children - 1) * 10 + 50;
+                results.css("height", height + "px");
+            });
+        }, 200);
+    });
 });

@@ -50,6 +50,7 @@ body {
             rgba(255, 0, 0, 1) 100%
         )
         0 0 100% 0;
+    overflow: visible;
 }
 
 .navbar-container {
@@ -59,6 +60,7 @@ body {
     justify-content: space-between;
     position: relative;
     height: 50px;
+    overflow: visible;
 }
 
 .navbar-message {
@@ -88,6 +90,7 @@ body {
     width: 40%;
     margin: 8px 0;
     display: flex;
+    overflow: visible;
 }
 
 .navbar-search {
@@ -99,6 +102,7 @@ body {
     padding: 10px 20px;
     font-size: 20px;
     outline: none;
+    z-index: 2;
 }
 
 .search i {
@@ -109,6 +113,54 @@ body {
     font-size: 20px;
     color: #aaa;
     pointer-events: none; /* Ensure the icon does not block input interaction */
+    z-index: 2;
+}
+
+.search-results {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    border-radius: 25px;
+    background-color: #2b2a33;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    flex-direction: column;
+    transition: all 0.2s;
+    padding: 0px 5px;
+    padding-top: 45px;
+    padding-bottom: 5px;
+    height: 0px;
+}
+
+.search-result {
+    height: 70px;
+    min-height: 70px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    padding: 10px 15px;
+    font-size: 25px;
+    border-radius: 15px;
+    transition: all 0.2s;
+    margin: 5px 10px;
+}
+
+.search-result:hover {
+    opacity: 0.75;
+    scale: 0.99;
+}
+
+.search-result:active {
+    opacity: 0.5;
+    scale: 1.01;
+}
+
+.search-result img {
+    height: 45px;
+    border-radius: 25px;
+    margin-right: 20px;
 }
 
 #navbar-toggle {
