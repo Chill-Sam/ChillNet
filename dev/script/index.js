@@ -165,26 +165,39 @@ $(document).ready(function () {
     $("#navbar-search").on("input", function () {
         const navbar = $(this);
         const query = navbar.val().trim();
-
-        if (query.length === 0) {
-            console.log("no input");
-            return;
-        }
+        const results = $("#search-results");
 
         debounce(() => {
             $.ajax({
-                url: '/api/searchUser',
-                type: 'GET',
+                url: "/api/searchUser",
+                type: "GET",
                 data: { search: query },
-                dataType: 'json',
-                success: function (response) {
-                    if (response.success) {
-                        console.table(response.data);
-                    } else {
-                        console.log("no users")
-                    }
+                dataType: "json",
+            }).then((response) => {
+                const users = response.data;
+                results.empty();
+                if (query.length === 0) {
+                    results.css("height", "0px");
+                    return;
                 }
-            })
-        }, 100);
+
+                if (!response.success) {
+                    results.css("height", "0px");
+                    return;
+                }
+                users.forEach((user) => {
+                    results.append(`
+                        <button class="search-result">
+                            <img src="/assets/no_account.png" alt="" />
+                                ${user[0]}
+                        </button>
+                            `);
+                });
+
+                const children = results.children().length;
+                const height = 80 * children + (children - 1) * 10 + 50;
+                results.css("height", height + "px");
+            });
+        }, 200);
     });
 });
