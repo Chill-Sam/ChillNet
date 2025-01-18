@@ -1,5 +1,3 @@
-let userCache = {};
-
 function toggleMenu() {
     const menu = $(".menu");
     const cover = $(".cover");
@@ -8,19 +6,14 @@ function toggleMenu() {
 }
 
 async function fetchUserDetails(UserId) {
-    if (userCache[UserId] !== undefined) {
-        return Promise.resolve(userCache[UserId]);
-    } else {
-        return $.ajax({
-            url: "/api/getUser",
-            method: "GET",
-            data: { UserId: UserId },
-            dataType: "json",
-        }).then((response) => {
-            userCache[UserId] = response.data;
-            return response.data;
-        });
-    }
+    return $.ajax({
+        url: "/api/getUser",
+        method: "GET",
+        data: { UserId: UserId },
+        dataType: "json",
+    }).then((response) => {
+        return response.data;
+    });
 }
 
 $("#navbar-home").on("click", function () {
