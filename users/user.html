@@ -1,4 +1,5 @@
 <?php
+session_start();
 include 'user.php';
 ?>
 
@@ -9,8 +10,15 @@ include 'user.php';
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <title><?php echo $user['Username']; ?></title>
         <link href="css/style.css" rel="stylesheet" />
+        <link
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+        />
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
     </head>
     <body>
+        <?php include($_SERVER['DOCUMENT_ROOT'] .
+        "/component/navbar/navbar.html"); ?>
         <h1>Welcome, <?php echo $user['Username']; ?>!</h1>
     </body>
 </html>
