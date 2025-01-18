@@ -1,8 +1,26 @@
+let userCache = {};
+
 function toggleMenu() {
     const menu = $(".menu");
     const cover = $(".cover");
     menu.toggleClass("visible");
     cover.toggleClass("on");
+}
+
+async function fetchUserDetails(UserId) {
+    if (userCache[UserId] !== undefined) {
+        return Promise.resolve(userCache[UserId]);
+    } else {
+        return $.ajax({
+            url: "/api/getUser",
+            method: "GET",
+            data: { UserId: UserId },
+            dataType: "json",
+        }).then((response) => {
+            userCache[UserId] = response.data;
+            return response.data;
+        });
+    }
 }
 
 $("#navbar-home").on("click", function () {
@@ -44,6 +62,13 @@ $(".cover").on("click", function (e) {
 });
 
 $(document).ready(function () {
+    if (!(SESSION_USERID === "")) {
+        (async () => {
+            const curUser = await fetchUserDetails(Number(SESSION_USERID));
+            $(".navbar-message").append(curUser.Username);
+        })();
+    }
+
     let debounceTimer;
 
     // Debounce function to delay AJAX requests
