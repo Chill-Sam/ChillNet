@@ -53,13 +53,6 @@ async function handleNewPosts(posts) {
 }
 
 $(document).ready(function () {
-    if (!(SESSION_USERID === "")) {
-        (async () => {
-            const curUser = await fetchUserDetails(Number(SESSION_USERID));
-            $(".navbar-message").append(curUser.Username);
-        })();
-    }
-
     const postsSocket = new WebSocket(
         "ws://chillsam.ddns.net:8080/websocket/posts",
     );
