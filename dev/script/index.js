@@ -72,7 +72,7 @@ $("#menu-settings").on("click", function () {});
 $("#menu-about").on("click", function () {});
 
 $("#menu-github").on("click", function () {
-    window.location.href = ("https://github.com/Chill-Sam/ChillNet");
+    window.location.href = "https://github.com/Chill-Sam/ChillNet";
 });
 
 $("#menu-logout").on("click", async function () {
@@ -80,7 +80,7 @@ $("#menu-logout").on("click", async function () {
         type: "POST",
         url: "/api/logout",
     });
-    window.location.href = ("/signin");
+    window.location.href = "/signin";
 });
 
 $(".cover").on("click", function (e) {
