@@ -59,6 +59,10 @@ async function handleNewPosts(posts) {
     }
 }
 
+$("#navbar-home").on("click", function () {
+    window.location.href = "/";
+});
+
 $("#navbar-toggle").on("click", function () {
     toggleMenu();
 });

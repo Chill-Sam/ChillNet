@@ -63,11 +63,35 @@ body {
     overflow: visible;
 }
 
+.navbar-home {
+    height: 100%;
+}
+
+.navbar-home button {
+    height: 100%;
+    width: 50px;
+    background: transparent;
+    border: none;
+    font-size: 40px;
+    transition: all 0.2s;
+}
+
+.navbar-home button:hover {
+    scale: 0.95;
+    opacity: 0.8;
+}
+
+.navbar-home button:active {
+    scale: 1.05;
+    opacity: 0.5;
+}
+
 .navbar-message {
     display: flex;
     align-items: center;
     gap: 15px;
     margin-right: auto;
+    margin-left: 15px;
     height: 100%;
     min-width: 500px;
     width: 20%;
