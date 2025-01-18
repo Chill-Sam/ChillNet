@@ -19,45 +19,8 @@ if ($_SESSION["loggedin"] != 1) {
         />
     </head>
     <body>
-        <div class="cover"></div>
-        <header id="navbar">
-            <nav class="navbar-container">
-                <div class="navbar-home">
-                    <button type="button" id="navbar-home">
-                        <i class="bi bi-house-fill"></i>
-                    </button>
-                </div>
-                <div class="navbar-message">
-                    <img src="/assets/no_account.png" alt="" />
-                </div>
-                <div class="search">
-                    <input
-                        type="text"
-                        class="navbar-search"
-                        id="navbar-search"
-                        placeholder="Search ..."
-                    />
-                    <i class="bi bi-search"></i>
-                    <div class="search-results" id="search-results"></div>
-                </div>
-                <button type="button" id="navbar-toggle">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-            </nav>
-        </header>
-        <div class="menu">
-            <menu>
-                <li><button type="button" id="menu-close">Close</button></li>
-                <li>
-                    <button type="button" id="menu-settings">Settings</button>
-                </li>
-                <li><button type="button" id="menu-about">About</button></li>
-                <li><button type="button" id="menu-github">Github</button></li>
-                <li><button type="button" id="menu-logout">Logout</button></li>
-            </menu>
-        </div>
+        <?php include($_SERVER['DOCUMENT_ROOT'] .
+        "/component/navbar/navbar.html"); ?>
         <div class="main-grid">
             <div id="posts-container">
                 <h1>What is going on right now?</h1>
