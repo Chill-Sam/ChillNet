@@ -1,25 +1,8 @@
-let userCache = {};
 let count = 0;
 let isLoadingPosts = false;
 let loadedAllPosts = false;
 
 const delay = (ms) => new Promise((res) => setTimeout(res, ms));
-
-async function fetchUserDetails(UserId) {
-    if (userCache[UserId] !== undefined) {
-        return Promise.resolve(userCache[UserId]);
-    } else {
-        return $.ajax({
-            url: "/api/getUser",
-            method: "GET",
-            data: { UserId: UserId },
-            dataType: "json",
-        }).then((response) => {
-            userCache[UserId] = response.data;
-            return response.data;
-        });
-    }
-}
 
 async function addNewPost(post) {
     console.table(post);
