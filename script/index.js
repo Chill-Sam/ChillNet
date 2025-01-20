@@ -21,7 +21,29 @@ async function fetchUserDetails(UserId) {
     }
 }
 
-async function handleNewPosts(posts) {
+async function addNewPost(post) {
+    console.table(post);
+    count++;
+    const user = await fetchUserDetails(post.AssUserId);
+    const date = new Date(post.PostDate + "Z").toLocaleDateString();
+    const time = new Date(post.PostDate + "Z").toLocaleTimeString("en-US", {
+        hour12: false,
+    });
+    $("#posts").prepend(`
+        <div class="post">
+            <div class="post-header">
+                <h1>${user.Username}</h1>
+                <div class="post-time">
+                    <h2>${date}</h2>
+                    <h4>${time}</h4>
+                </div>
+            </div>
+            <p>${post.Content}</p>
+        </div>
+    `);
+}
+
+async function handleOlderPosts(posts) {
     if (posts.length == 0) {
         loadedAllPosts = true;
         $("#posts").append(`
@@ -63,13 +85,16 @@ $(document).ready(function () {
         isLoadingPosts = false;
 
         const message = JSON.parse(event.data);
-
+        console.table(message);
         switch (message.type) {
+            case "add_new_post":
+                addNewPost(message.data);
+                break;
             case "latest_posts":
-                handleNewPosts(message.data);
+                handleOlderPosts(message.data);
                 break;
             case "older_posts":
-                handleNewPosts(message.data);
+                handleOlderPosts(message.data);
                 break;
             default:
                 break;
@@ -79,6 +104,24 @@ $(document).ready(function () {
     postsSocket.onclose = function () {};
 
     postsSocket.onerror = function (error) {};
+
+    $("#new-post").submit(function (e) {
+        e.preventDefault();
+
+        const form = $(this);
+
+        postsSocket.send(
+            JSON.stringify({
+                action: "new_post",
+                post: {
+                    AssUserId: SESSION_USERID,
+                    msg: form.serializeArray()[0]["value"],
+                },
+            }),
+        );
+
+        form.trigger("reset");
+    });
 
     $("#posts-container").on("scroll", async function () {
         const container = $(this);
