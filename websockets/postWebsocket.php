@@ -8,14 +8,17 @@ class PostWebSocket implements MessageComponentInterface
 {
     private $db;
     private $maxRetries = 3;
+    protected \SplObjectStorage $clients;
 
     public function __construct()
     {
+        $this->clients = new \SplObjectStorage;
         $this->connect();
     }
 
     public function onOpen(ConnectionInterface $conn)
     {
+        $this->clients->attach($conn);
         echo "New connection to PostWebSocket: {$conn->resourceId}\n";
 
         $posts = $this->getLatestPosts();
@@ -35,6 +38,10 @@ class PostWebSocket implements MessageComponentInterface
 
         if (isset($data['action'])) {
             switch ($data['action']) {
+                case 'new_post':
+                    $response = $this->newPost($from, $data);
+                    break;
+
                 case 'load_initial':
                     $response = [
                         'type' => 'latest_posts',
@@ -84,6 +91,53 @@ class PostWebSocket implements MessageComponentInterface
         }
 
         $this->db->query('SET SESSION wait_timeout = 28800');
+    }
+
+    private function newPost(ConnectionInterface $from, $data)
+    {
+        if (!isset($data['post'])) {
+            return ['error' => 'No post data'];
+        }
+
+        $post = $data['post'];
+
+        if (!isset($post['AssUserId'])) {
+            return ['error' => 'No associated user id'];
+        }
+
+        if (!isset($post['msg'])) {
+            return ['error' => 'No msg provided'];
+        }
+
+        $AssUserId = (int) $post['AssUserId'];
+        $msg = $post['msg'];
+
+        $stmt = $this->db->prepare('INSERT INTO Posts (Content, AssUserId) VALUES (?, ?)');
+        $stmt->bind_param('si', $msg, $AssUserId);
+        if (!$stmt->execute()) {
+            // Handle execution error
+            die('Execute failed: ' . $stmt->error);
+        }
+
+        $stmt->close();
+
+        $newId = $this->db->insert_id;
+
+        $selectStmt = $this->db->prepare('SELECT * FROM Posts WHERE PostId = ?');
+        $selectStmt->bind_param('i', $newId);
+        if (!$selectStmt->execute()) {
+            die('Execute failed: ' . $selectStmt->error);
+        }
+        $result = $selectStmt->get_result();
+        $newRow = $result->fetch_assoc();
+
+        $selectStmt->close();
+
+        foreach ($this->clients as $client) {
+            $client->send(json_encode(['type' => 'add_new_post', 'data' => $newRow]));
+        }
+
+        return ['success' => 'true'];
     }
 
     private function getLatestPosts()
