@@ -5,7 +5,6 @@ let loadedAllPosts = false;
 const delay = (ms) => new Promise((res) => setTimeout(res, ms));
 
 async function addNewPost(post) {
-    console.table(post);
     count++;
     const user = await fetchUserDetails(post.AssUserId);
     const date = new Date(post.PostDate + "Z").toLocaleDateString();
@@ -68,7 +67,6 @@ $(document).ready(function () {
         isLoadingPosts = false;
 
         const message = JSON.parse(event.data);
-        console.table(message);
         switch (message.type) {
             case "add_new_post":
                 addNewPost(message.data);
