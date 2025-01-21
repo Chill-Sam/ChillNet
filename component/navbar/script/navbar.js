@@ -5,19 +5,15 @@ function toggleMenu() {
     cover.toggleClass("on");
 }
 
-async function fetchUserDetails(UserId) {
-    return $.ajax({
-        url: "/api/getUser",
-        method: "GET",
-        data: { UserId: UserId },
-        dataType: "json",
-    }).then((response) => {
-        return response.data;
-    });
-}
-
 $("#navbar-home").on("click", function () {
     window.location.href = "/";
+});
+
+$("#navbar-img").on("click", async function () {
+    const user = await fetchUserDetails(SESSION_USERID);
+    const link = "/users/" + user.Username;
+
+    window.location.href = link;
 });
 
 $("#navbar-toggle").on("click", function () {
