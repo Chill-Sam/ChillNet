@@ -1,7 +1,10 @@
-let userCache = {};
+if (!window.userCache) {
+    window.userCache = {};
+}
+
 async function fetchUserDetails(UserId) {
-    if (userCache[UserId] !== undefined) {
-        return Promise.resolve(userCache[UserId]);
+    if (window.userCache[UserId] !== undefined) {
+        return Promise.resolve(window.userCache[UserId]);
     } else {
         return $.ajax({
             url: "/api/getUser",
@@ -9,7 +12,7 @@ async function fetchUserDetails(UserId) {
             data: { UserId: UserId },
             dataType: "json",
         }).then((response) => {
-            userCache[UserId] = response.data;
+            window.userCache[UserId] = response.data;
             return response.data;
         });
     }
