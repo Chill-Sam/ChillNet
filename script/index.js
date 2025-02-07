@@ -4,28 +4,6 @@ let loadedAllPosts = false;
 
 const delay = (ms) => new Promise((res) => setTimeout(res, ms));
 
-async function addNewPost(post) {
-    console.table(post);
-    count++;
-    const user = await fetchUserDetails(post.AssUserId);
-    const date = new Date(post.PostDate + "Z").toLocaleDateString();
-    const time = new Date(post.PostDate + "Z").toLocaleTimeString("en-US", {
-        hour12: false,
-    });
-    $("#posts").prepend(`
-        <div class="post">
-            <div class="post-header">
-                <h1>${user.Username}</h1>
-                <div class="post-time">
-                    <h2>${date}</h2>
-                    <h4>${time}</h4>
-                </div>
-            </div>
-            <p>${post.Content}</p>
-        </div>
-    `);
-}
-
 async function handleOlderPosts(posts) {
     if (posts.length == 0) {
         loadedAllPosts = true;
@@ -71,7 +49,7 @@ $(document).ready(function () {
         console.table(message);
         switch (message.type) {
             case "add_new_post":
-                addNewPost(message.data);
+                addNewPost(message.data, "#posts");
                 break;
             case "latest_posts":
                 handleOlderPosts(message.data);
